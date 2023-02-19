@@ -1,0 +1,239 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+body{
+    
+}
+.main{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+}
+
+*:focus {
+    outline: none;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+h2 {
+    margin: 10px;
+}
+span {
+    margin-bottom: 20px;
+}
+span {
+    font-weight: 300;
+    color: #666;
+    font-size: 15px;
+    font-style: italic;
+}
+
+#canvasContainer{
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    max-height: 70vh;
+    max-width: 850px;
+    height: fit-content;
+    width: fit-content;
+    overflow-y: scroll;
+    overflow-x: none;
+    margin-left: 30px;
+    margin-right: 20px;
+    margin-top: 20px;
+    border: 2px black solid;
+    position: relative;
+}
+
+canvas{
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* ===== Comment Area CSS ===== */
+.comment_area{
+    background-color: #cd87f9;
+    border-radius: 10px;
+    width: 410px;
+    height: 300px;
+    margin-top: 20px;
+    margin-right: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    
+}
+.comment_area .comment_status{
+    padding: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hide the default radio button */
+.comment_status input[type="radio"] {
+    display: none;
+}
+
+.comment_status label {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #cd87f9;
+    color: #fff;
+    border-radius: 100px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.1s ease-in all;
+}
+
+/* Add hover and checked styles to the label */
+.comment_status label:hover {
+    background-color: #ba7eec;
+}
+  
+.comment_status input[type="radio"]:checked + label {
+    background-color: #ba7eec;
+}
+
+/* Comment View */
+.commentsView{
+    background-color: #cd87f9;
+    width: 100%;
+    height: 170px;
+    position: relative;
+    overflow-y: auto;
+    z-index: 0;
+}
+
+.commentsViewItem{
+    width: 95%;
+    border-radius: 10px;
+    background-color: #f9efff;
+    padding: 10px;
+    margin-left: 10px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.commentsViewItem h1{
+    font-weight: 400;
+}
+
+
+/* Comment Input */
+.comment_input {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    justify-self: center;
+    margin-top: 10px;
+    width: 400px;
+    z-index: 2;
+}
+
+.comment_input input[type="text"] {
+    border: none;
+    border-radius: 20px;
+    background-color: #ffffff;
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 20px;
+    flex: 1;
+}
+
+.commentButtons{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+  
+.circle_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #d9d9d9;
+    border: none;
+    outline: none;
+}
+  
+.circle_button:hover {
+    background-color: #bfbfbf;
+}
+
+
+/* ===== Sidebar CSS ===== */
+.wrapper .sidebar{
+        background: #B24BF3;
+        width: 200px;
+        height: 100%;
+        padding: 20px 0;
+        transition: all 0.5s ease;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.wrapper .sidebar .profile{
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.wrapper .sidebar .profile img{
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+.wrapper .sidebar .profile h3{
+    color: #ffffff;
+    margin: 10px 0 5px;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.wrapper .sidebar .profile p{
+    color: rgb(206, 240, 253);
+    font-size: 14px;
+}
+
+.wrapper .sidebar .profile .line{
+    background: #fff;
+    width: 52%;
+    height: 1px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 30px;
+}
+
+.wrapper .sidebar .profile .img1{
+    background: #cccccc;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+
+/* ===== Scrollbar CSS ===== *//* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #54a09f #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #54a09f;
+    border-radius: 13px;
+}
