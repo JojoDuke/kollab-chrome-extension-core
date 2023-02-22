@@ -10,8 +10,8 @@ const ImagePic: React.FC = () => {
 
 
     // Function for when the send buttong is clicked
-    const handleSendClick = () => {
-        
+    const handleSendClick = async () => {
+
     }
 
     // Function for when the pencil icon is clicked

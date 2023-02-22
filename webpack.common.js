@@ -4,6 +4,8 @@ const HtmlPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const tailwindcss = require('tailwindcss')
 const autoprefixer = require('autoprefixer')
+//import 'node-libs-browser';
+
 
 module.exports = {
     entry: {
@@ -66,7 +68,23 @@ module.exports = {
         ])
     ],
     resolve: {
-        extensions: ['.tsx', '.js', '.ts']
+        extensions: ['.tsx', '.js', '.ts'],
+        fallback: {
+            "os": require.resolve("os-browserify/browser"),
+            "url": require.resolve("url/"),
+            "path": require.resolve("path-browserify"),
+            "dns": require.resolve('dns.js'),
+            "tls": require.resolve('tls'),
+            "fs": false,
+            "net": false,
+            "stream": false,
+            "timers": false,
+            "crypto": false,
+            "util": false,
+            "zlib": false,
+            "http": false,
+
+          }
     },
     output: {
         filename: '[name].js',
