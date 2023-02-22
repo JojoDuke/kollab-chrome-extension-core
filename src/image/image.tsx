@@ -6,13 +6,32 @@ import CommentsViewItem from "./imageComponents/commentsViewItem";
 const ImagePic: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvasContainerRef = useRef<HTMLDivElement>(null);
+    const [comments, setComments] = useState([]);
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
     const [savedState, setSavedState] = useState<string>('');
 
 
     // Function for when the send buttong is clicked
-    const handleSendClick = () => {
+    const handleSendClick = (e) => {
+        e.preventDefault();
+        const commentInput = document.querySelector('.comment_input input') as HTMLInputElement;
+        const commentText = commentInput.value;
+
+        if (commentText === '') {
+            alert('Please enter a comment');
+            return;
+          }
+
         //
+        axios.post("http://localhost:5000/addComment", {
+            comment_text: commentText
+        }).then((response) => {
+            alert("Comment Added:" + " " + commentText);
+            commentInput.value = '';
+
+            setComments([...comments, { id: comments.length + 1, username: 'Username', time: 'Time' }]);
+
+        }).catch((error) => alert(error.response));
       }
 
     // Function for when the pencil icon is clicked
@@ -185,6 +204,9 @@ const ImagePic: React.FC = () => {
                 </div>
 
                 <div className="commentsView">
+                    {comments.map(comment => (
+                        <CommentsViewItem key={comment.id} username={comment.username} time={comment.time}/>
+                    ))}
                     <CommentsViewItem username="Username" time="Time"/>
                 </div>
 
