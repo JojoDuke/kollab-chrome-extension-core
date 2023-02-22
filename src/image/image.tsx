@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./image.css";
+import axios from "axios";
 import CommentsViewItem from "./imageComponents/commentsViewItem";
 
 const ImagePic: React.FC = () => {
@@ -10,9 +11,9 @@ const ImagePic: React.FC = () => {
 
 
     // Function for when the send buttong is clicked
-    const handleSendClick = async () => {
-
-    }
+    const handleSendClick = () => {
+        //
+      }
 
     // Function for when the pencil icon is clicked
     const handlePencilClick = () => {
