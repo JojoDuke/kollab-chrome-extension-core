@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const CommentsModel = require("./Models/Comments");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
 //MongoDB connection
 mongoose.connect("mongodb+srv://admin:8FoswwcRH2zINbIK@kollabcluster.lfup9j5.mongodb.net/kollab?retryWrites=true&w=majority");

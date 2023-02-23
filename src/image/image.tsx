@@ -6,17 +6,44 @@ import CommentsViewItem from "./imageComponents/commentsViewItem";
 const ImagePic: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvasContainerRef = useRef<HTMLDivElement>(null);
+
     const [comments, setComments] = useState([]);
+    const [time, setTime] = useState('');
+    const [username, setUsername] = useState('');
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
     const [savedState, setSavedState] = useState<string>('');
 
+    // Fetch comments when the component mounts
+    useEffect(() => {
+        const now = new Date();
+        const theTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        axios.get('http://localhost:5000/')
+            .then(response => {
+                //setComments(response.data);
+                setComments(response.data.map(comment => ({
+                    ...comment,
+                    username: 'Username',
+                    time: theTime,
+                  })));
+                  
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
-    // Function for when the send buttong is clicked
-    const handleSendClick = (e) => {
-        e.preventDefault();
+            setTime(theTime);
+            setUsername('Username');
+            
+
+        }, []);
+
+    // Function for when the send button is clicked
+    const handleSendClick = () => {
         const commentInput = document.querySelector('.comment_input input') as HTMLInputElement;
         const commentText = commentInput.value;
 
+        // Check if the input is empty
         if (commentText === '') {
             alert('Please enter a comment');
             return;
@@ -25,14 +52,28 @@ const ImagePic: React.FC = () => {
         //
         axios.post("http://localhost:5000/addComment", {
             comment_text: commentText
-        }).then((response) => {
-            alert("Comment Added:" + " " + commentText);
-            commentInput.value = '';
+        })
+            .then((response) => {
+                commentInput.value = '';
 
-            setComments([...comments, { id: comments.length + 1, username: 'Username', time: 'Time' }]);
+                const newComment = { id: response.data.id, comment_text: commentText, username: username, time: time };
+                setComments([...comments, newComment]);
 
-        }).catch((error) => alert(error.response));
+            }).catch((error) => alert(error.response));
+    }
+
+    // Render comments in the commentsView div
+    const commentItems = comments.map(comment => {
+        return <CommentsViewItem key={comment.id} username={comment.username} time={comment.time} comment_text={comment.comment_text} />;
+    });
+
+    // Function for when enter is pressed on input
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+          handleSendClick();
+        }
       }
+
 
     // Function for when the pencil icon is clicked
     const handlePencilClick = () => {
@@ -204,14 +245,11 @@ const ImagePic: React.FC = () => {
                 </div>
 
                 <div className="commentsView">
-                    {comments.map(comment => (
-                        <CommentsViewItem key={comment.id} username={comment.username} time={comment.time}/>
-                    ))}
-                    <CommentsViewItem username="Username" time="Time"/>
+                    {commentItems}
                 </div>
 
                 <div className="comment_input">
-                    <input type="text" placeholder="Write a comment"/>
+                    <input type="text" placeholder="Write a comment" onKeyDown={handleKeyPress}/>
                     <div className="commentButtons">
                         <button className="circle_button" id="sendIcon" onClick={handleSendClick}>
                             <img src="https://cdn-icons-png.flaticon.com/512/3024/3024593.png" width="20px"/>
