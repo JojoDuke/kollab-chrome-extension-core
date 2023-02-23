@@ -6,25 +6,50 @@ import CommentsViewItem from "./imageComponents/commentsViewItem";
 const ImagePic: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvasContainerRef = useRef<HTMLDivElement>(null);
+    const commentsViewRef = useRef<HTMLDivElement>(null);
+
+    const now = new Date();
+    const theTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
     const [comments, setComments] = useState([]);
-    const [time, setTime] = useState('');
     const [username, setUsername] = useState('');
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
     const [savedState, setSavedState] = useState<string>('');
+    const [autoScroll, setAutoScroll] = useState(true);
+
+    const scrollToBottom = () => {
+        const commentsView = commentsViewRef.current;
+        const isScrolledToBottom = commentsView.scrollTop + commentsView.clientHeight === commentsView.scrollHeight;
+      
+        commentsView.scrollTop = commentsView.scrollHeight;
+      
+        if (!isScrolledToBottom) {
+          commentsViewRef.current.style.scrollBehavior = 'smooth';
+        } else {
+          commentsViewRef.current.style.scrollBehavior = 'auto';
+        }
+
+        //
+        commentsViewRef.current.addEventListener('scroll', () => {
+            const commentsView = commentsViewRef.current;
+            const isScrolledToBottom = commentsView.scrollTop + commentsView.clientHeight === commentsView.scrollHeight;
+          
+            if (isScrolledToBottom) {
+              commentsViewRef.current.style.scrollBehavior = 'smooth';
+            } else {
+              commentsViewRef.current.style.scrollBehavior = 'auto';
+            }
+          });  
+      };
 
     // Fetch comments when the component mounts
     useEffect(() => {
-        const now = new Date();
-        const theTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        
         axios.get('http://localhost:5000/')
             .then(response => {
                 //setComments(response.data);
                 setComments(response.data.map(comment => ({
                     ...comment,
                     username: 'Username',
-                    time: theTime,
                   })));
                   
             })
@@ -32,11 +57,10 @@ const ImagePic: React.FC = () => {
                 console.error(error);
             });
 
-            setTime(theTime);
             setUsername('Username');
-            
 
-        }, []);
+            scrollToBottom();
+        }, [comments]);
 
     // Function for when the send button is clicked
     const handleSendClick = () => {
@@ -49,14 +73,16 @@ const ImagePic: React.FC = () => {
             return;
           }
 
-        //
+        //A POST request function that adds a comment to the database
         axios.post("http://localhost:5000/addComment", {
-            comment_text: commentText
+            comment_text: commentText,
+            //Post the current time when comment is sent
+            comment_time: theTime
         })
             .then((response) => {
                 commentInput.value = '';
 
-                const newComment = { id: response.data.id, comment_text: commentText, username: username, time: time };
+                const newComment = { id: response.data.id, comment_text: commentText, username: username, comment_time: theTime };
                 setComments([...comments, newComment]);
 
             }).catch((error) => alert(error.response));
@@ -64,7 +90,7 @@ const ImagePic: React.FC = () => {
 
     // Render comments in the commentsView div
     const commentItems = comments.map(comment => {
-        return <CommentsViewItem key={comment.id} username={comment.username} time={comment.time} comment_text={comment.comment_text} />;
+        return <CommentsViewItem key={comment.id} username={comment.username} comment_time={comment.comment_time} comment_text={comment.comment_text} />;
     });
 
     // Function for when enter is pressed on input
@@ -244,7 +270,7 @@ const ImagePic: React.FC = () => {
                     <label htmlFor="resolved">Resolved</label>
                 </div>
 
-                <div className="commentsView">
+                <div className="commentsView" ref={commentsViewRef}>
                     {commentItems}
                 </div>
 

@@ -4,6 +4,10 @@ const CommentsSchema = new mongoose.Schema({
     comment_text: {
         type: String,
         required: true,
+    },
+    comment_time: {
+        type: String,
+        required: true,
     }
 });
 
