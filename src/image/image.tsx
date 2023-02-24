@@ -16,31 +16,6 @@ const ImagePic: React.FC = () => {
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
     const [savedState, setSavedState] = useState<string>('');
 
-    const scrollToBottom = () => {
-        const commentsView = commentsViewRef.current;
-        const isScrolledToBottom = commentsView.scrollTop + commentsView.clientHeight === commentsView.scrollHeight;
-      
-        commentsView.scrollTop = commentsView.scrollHeight;
-      
-        if (!isScrolledToBottom) {
-          commentsViewRef.current.style.scrollBehavior = 'smooth';
-        } else {
-          commentsViewRef.current.style.scrollBehavior = 'auto';
-        }
-
-        //
-        commentsViewRef.current.addEventListener('scroll', () => {
-            const commentsView = commentsViewRef.current;
-            const isScrolledToBottom = commentsView.scrollTop + commentsView.clientHeight === commentsView.scrollHeight;
-          
-            if (isScrolledToBottom) {
-              commentsViewRef.current.style.scrollBehavior = 'smooth';
-            } else {
-              commentsViewRef.current.style.scrollBehavior = 'auto';
-            }
-          });  
-      };
-
     // Fetch comments when the component mounts
     useEffect(() => {
         axios.get('http://localhost:5000/')
@@ -80,13 +55,21 @@ const ImagePic: React.FC = () => {
         })
             .then((response) => {
                 commentInput.value = '';
-                scrollToBottom();
-
+                
                 const newComment = { id: response.data.id, comment_text: commentText, username: username, comment_time: theTime };
                 setComments([...comments, newComment]);
 
             }).catch((error) => alert(error.response));
     }
+
+    useEffect(() => {
+        scrollToBottom();
+      }, [comments]);
+      
+      const scrollToBottom = () => {
+        commentsViewRef.current.scrollTop = commentsViewRef.current.scrollHeight;
+        commentsViewRef.current.style.scrollBehavior = 'smooth';
+      }
 
     // Render comments in the commentsView div
     const commentItems = comments.map(comment => {
