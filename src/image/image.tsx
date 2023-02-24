@@ -15,7 +15,6 @@ const ImagePic: React.FC = () => {
     const [username, setUsername] = useState('');
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
     const [savedState, setSavedState] = useState<string>('');
-    const [autoScroll, setAutoScroll] = useState(true);
 
     const scrollToBottom = () => {
         const commentsView = commentsViewRef.current;
@@ -59,8 +58,8 @@ const ImagePic: React.FC = () => {
 
             setUsername('Username');
 
-            scrollToBottom();
-        }, [comments]);
+            
+        }, []);
 
     // Function for when the send button is clicked
     const handleSendClick = () => {
@@ -81,6 +80,7 @@ const ImagePic: React.FC = () => {
         })
             .then((response) => {
                 commentInput.value = '';
+                scrollToBottom();
 
                 const newComment = { id: response.data.id, comment_text: commentText, username: username, comment_time: theTime };
                 setComments([...comments, newComment]);
