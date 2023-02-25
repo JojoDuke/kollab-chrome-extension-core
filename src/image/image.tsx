@@ -121,22 +121,34 @@ const ImagePic: React.FC = () => {
                 }
                 isDrawing = true;
                 ctx.beginPath();
+
+                // Request animation frame for smoother drawing
+                requestAnimationFrame(() => {
+                    drawing(e);
+                });
             }
     
             const drawing = (e) => {
                 if (isDrawing) {
-                    const canvas = canvasRef.current;
-                    const container = canvasContainerRef.current;
-                    const containerRect = container.getBoundingClientRect();
-                    const canvasWidth = containerRect.width;
-                    const canvasHeight = containerRect.height;
-                    const x = e.clientX - containerRect.left;
-                    const y = e.clientY - containerRect.top;
-                    ctx.lineTo(x * (canvas.width / canvasWidth), y * (canvas.height / canvasHeight));
-                    ctx.stroke();
-                    ctx.lineWidth = 10;
+                  const canvas = canvasRef.current;
+                  const container = canvasContainerRef.current;
+                  const containerRect = container.getBoundingClientRect();
+                  const canvasWidth = canvas.offsetWidth;
+                  const canvasHeight = canvas.offsetHeight;
+                  let containerScrollTop = 0;
+                  let containerScrollLeft = 0;
+                  if (container.scrollHeight > container.clientHeight || container.scrollWidth > container.clientWidth) {
+                    containerScrollTop = container.scrollTop;
+                    containerScrollLeft = container.scrollLeft;
+                  }
+                  const x = e.clientX - containerRect.left - containerScrollLeft;
+                  const y = e.clientY - containerRect.top - containerScrollTop;
+                  ctx.lineTo(x * (canvas.width / canvasWidth), y * (canvas.height / canvasHeight));
+                  ctx.stroke();
+                  ctx.lineWidth = 10;
                 }
-            }
+              }
+              
     
             canvas.addEventListener("mousedown", startDraw);
             canvas.addEventListener("mousemove", drawing);
@@ -167,7 +179,7 @@ const ImagePic: React.FC = () => {
             const canvasContainer = canvasContainerRef.current;
             canvasContainer.style.position = "relative";
             const canvas = canvasRef.current,
-            ctx = canvas.getContext("2d");
+            ctx = canvas.getContext("2d", { willReadFrequently: true });
             ctx.imageSmoothingEnabled = false;
 
             const canvasImg = new Image();
@@ -265,6 +277,9 @@ const ImagePic: React.FC = () => {
                         </button>
                         <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilIconColor }}>
                             <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
+                        </button>
+                        <button className="circle_button" id="addTextIcon">
+                            <img width="20px"/>
                         </button>
                     </div>
                 </div>
