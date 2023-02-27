@@ -279,7 +279,7 @@ const ImagePic: React.FC = () => {
                             <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
                         </button>
                         <button className="circle_button" id="addTextIcon">
-                            <img width="20px"/>
+                            <img src="https://cdn-icons-png.flaticon.com/512/2087/2087807.png" width="20px"/>
                         </button>
                     </div>
                 </div>
