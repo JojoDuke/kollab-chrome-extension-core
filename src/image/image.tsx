@@ -31,7 +31,7 @@ const ImagePic: React.FC = () => {
                 console.error(error);
             });
 
-            setUsername('Username');
+            setUsername('Username')
 
             
         }, []);
