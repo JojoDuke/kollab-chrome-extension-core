@@ -145,7 +145,7 @@ const ImagePic: React.FC = () => {
                   const y = e.clientY - containerRect.top - containerScrollTop;
                   ctx.lineTo(x * (canvas.width / canvasWidth), y * (canvas.height / canvasHeight));
                   ctx.stroke();
-                  ctx.lineWidth = 10;
+                  ctx.lineWidth = 10
                 }
               }
               
