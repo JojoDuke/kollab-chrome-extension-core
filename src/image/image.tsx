@@ -8,6 +8,7 @@ const ImagePic: React.FC = () => {
     const canvasContainerRef = useRef<HTMLDivElement>(null);
     const commentsViewRef = useRef<HTMLDivElement>(null);
 
+    // Get the current date from local machine
     const now = new Date();
     const theTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
