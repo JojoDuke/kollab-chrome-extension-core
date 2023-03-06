@@ -63,10 +63,12 @@ const ImagePic: React.FC = () => {
             }).catch((error) => alert(error.response));
     }
 
+    // Scroll to the bottom of the view on any new comment
     useEffect(() => {
         scrollToBottom();
       }, [comments]);
       
+      // Scroll to bottom function
       const scrollToBottom = () => {
         commentsViewRef.current.scrollTop = commentsViewRef.current.scrollHeight;
         commentsViewRef.current.style.scrollBehavior = 'smooth';
@@ -173,6 +175,7 @@ const ImagePic: React.FC = () => {
     }, [pencilIconColor]);
     
 
+    // Getting the image and putting it on the canvas
     chrome.runtime.sendMessage({ type: "getImage" }, (msg) => {
         if (msg.type === "image") {
             let blob_url = URL.createObjectURL(toBlob(msg.data));
@@ -228,6 +231,7 @@ const ImagePic: React.FC = () => {
         }
     });
 
+    // Function that converts the image data to a blob
     function toBlob(dataURI: string) {
         var byteString = atob(dataURI.split(",")[1]);
         var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
