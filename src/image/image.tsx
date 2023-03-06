@@ -15,6 +15,8 @@ const ImagePic: React.FC = () => {
     const [comments, setComments] = useState([]);
     const [username, setUsername] = useState('');
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
+    const [addTextIconColor, setAddTextColor] = useState('#d9d9d9');
+    const [isAddingText, setIsAddingText] = useState(false);
     const [savedState, setSavedState] = useState<string>('');
 
     // Fetch comments when the component mounts
@@ -87,7 +89,7 @@ const ImagePic: React.FC = () => {
       }
 
 
-    // Function for when the pencil icon is clicked
+    // Function for when the pencil button is clicked
     const handlePencilClick = () => {
         const newColor = pencilIconColor === '#d9d9d9' ? 'green' : '#d9d9d9';
         if (newColor === "#d9d9d9") {
@@ -98,11 +100,32 @@ const ImagePic: React.FC = () => {
         setPencilIconColor(newColor);
     };
 
+    // Function for when the add text button is clicked
+    const handleAddTextClick = () => {
+        const colorIfSelected = addTextIconColor === '#d9d9d9' ? 'red' : '#d9d9d9';
+        setAddTextColor(colorIfSelected);
+    };
+
     useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+        const container = canvasContainerRef.current;
+        const containerRect = container.getBoundingClientRect();
+        const canvasWidth = canvas.offsetWidth;
+        const canvasHeight = canvas.offsetHeight;
+        let containerScrollTop = 0;
+        let containerScrollLeft = 0;
+
+        if (container.scrollHeight > container.clientHeight || container.scrollWidth > container.clientWidth) {
+            containerScrollTop = container.scrollTop;
+            containerScrollLeft = container.scrollLeft;
+        }
+
+        // Code that enables drawing on the canvas
         if (pencilIconColor === "green") {
-            const canvas = canvasRef.current;
-            const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    
+
+            // Boolean to check the drawing status
             let isDrawing = false;
     
             window.addEventListener("load", () => {
@@ -133,22 +156,11 @@ const ImagePic: React.FC = () => {
     
             const drawing = (e) => {
                 if (isDrawing) {
-                  const canvas = canvasRef.current;
-                  const container = canvasContainerRef.current;
-                  const containerRect = container.getBoundingClientRect();
-                  const canvasWidth = canvas.offsetWidth;
-                  const canvasHeight = canvas.offsetHeight;
-                  let containerScrollTop = 0;
-                  let containerScrollLeft = 0;
-                  if (container.scrollHeight > container.clientHeight || container.scrollWidth > container.clientWidth) {
-                    containerScrollTop = container.scrollTop;
-                    containerScrollLeft = container.scrollLeft;
-                  }
                   const x = e.clientX - containerRect.left - containerScrollLeft;
                   const y = e.clientY - containerRect.top - containerScrollTop;
                   ctx.lineTo(x * (canvas.width / canvasWidth), y * (canvas.height / canvasHeight));
                   ctx.stroke();
-                  ctx.lineWidth = 10
+                  ctx.lineWidth = 10;
                 }
               }
               
@@ -172,7 +184,77 @@ const ImagePic: React.FC = () => {
                 });
             };
         }
-    }, [pencilIconColor]);
+
+        // Code for adding text to the canvas
+        if (addTextIconColor === "red") {
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext("2d", { willReadFrequently: true });
+            canvas.style.cursor = "text";
+
+            // Add text function
+            const addText = (e) => {
+                // Get x and y coordinates of the canvas
+                const x = e.clientX - containerRect.left - containerScrollLeft;
+                const y = e.clientY - containerRect.top - containerScrollTop;
+                
+                // The input view when adding text
+                const addTextInput = document.createElement("input");
+                addTextInput.type = "text";
+                addTextInput.style.position = "absolute";
+                addTextInput.style.left = `${x}px`;
+                addTextInput.style.top = `${y}px`;
+                addTextInput.style.backgroundColor = "transparent";
+                addTextInput.style.border = "none";
+                addTextInput.style.width = "100px";
+                addTextInput.style.height = "20px";
+                addTextInput.style.zIndex = "1";
+                addTextInput.style.display = "flex";
+                addTextInput.style.justifyContent = "center";
+                addTextInput.style.alignItems = "center";
+                addTextInput.style.cursor = "text";
+                addTextInput.value = "";
+
+                const cursor = document.createElement("span");
+                cursor.classList.add("blink");
+
+                const blinkInterval = setInterval(() => {
+                    cursor.style.opacity = cursor.style.opacity === "0" ? "1" : "0";
+                }, 500);
+
+                addTextInput.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      e.preventDefault();
+                      const canvas = canvasRef.current;
+                      const ctx = canvas.getContext("2d");
+                      ctx.font = "40px Arial";
+                      ctx.fillText(addTextInput.value, x * (canvas.width / canvasWidth), y * (canvas.height / canvasHeight));
+                      addTextInput.blur();
+                      cursor.remove();
+                      clearInterval(blinkInterval);
+                      addTextInput.remove();
+                      setIsAddingText(false);
+                    }
+                });
+
+                // Add/Append the input to the canvas container
+                container.appendChild(addTextInput);
+                
+                // Timeout for 50 ms after input element is added
+                setTimeout(() => {
+                    //Automatically focus the input after its added
+                    addTextInput.focus();
+                }, 50);
+            };
+
+            // on mouse down
+            canvas.addEventListener("mousedown", addText);
+
+            return () => {
+                canvas.removeEventListener("mousedown", addText);
+            };
+        };
+    }, [pencilIconColor, addTextIconColor]);
     
 
     // Getting the image and putting it on the canvas
@@ -283,7 +365,7 @@ const ImagePic: React.FC = () => {
                         <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilIconColor }}>
                             <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
                         </button>
-                        <button className="circle_button" id="addTextIcon">
+                        <button className="circle_button" id="addTextIcon" onClick={handleAddTextClick} style={{ backgroundColor: addTextIconColor }}>
                             <img src="https://cdn-icons-png.flaticon.com/512/2087/2087807.png" width="20px"/>
                         </button>
                     </div>
