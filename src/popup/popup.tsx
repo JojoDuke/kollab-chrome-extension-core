@@ -29,15 +29,12 @@ const Popup = () => {
 
     return (
         <div>
-            <h1 className="mt-2 text-lg text-center text-purple-600 font-bold">Kollab</h1>
-            <div className="mt-1 mb-1 h-0.5 w-4/5 bg-slate-100 mx-auto"></div>
             <button 
                 ref={buttonRef}
-                onClick={takeScreenshot}
-                style={{ left: "50%", transform: "translate(-50%, 0)", width: "80%" }}
-                className="bg-purple-500 hover:bg-purple-400 text-white font-bold py-2 px-4 rounded mx-auto w-70 absolute bottom-0 mb-3 transition-colors duration-350 ease-in-out">
+                onClick={takeScreenshot}>
                 Take Screenshot
             </button>
+            <div>plox</div>
             <div ref={statusRef} id="status"></div>
 
         </div>
