@@ -221,19 +221,6 @@ canvas{
     margin: 0 auto;
     cursor: pointer;
 }
-
-.blink {
-    animation: blink 0.5s infinite alternate;
-  }
-  
-  @keyframes blink {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
   
 
 

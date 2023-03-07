@@ -124,6 +124,7 @@ const ImagePic: React.FC = () => {
 
         // Code that enables drawing on the canvas
         if (pencilIconColor === "green") {
+            canvas.style.backgroundColor = "red";
 
             // Boolean to check the drawing status
             let isDrawing = false;
@@ -196,13 +197,15 @@ const ImagePic: React.FC = () => {
                 // Get x and y coordinates of the canvas
                 const x = e.clientX - containerRect.left - containerScrollLeft;
                 const y = e.clientY - containerRect.top - containerScrollTop;
+
+                e.preventDefault();
                 
                 // The input view when adding text
                 const addTextInput = document.createElement("input");
                 addTextInput.type = "text";
                 addTextInput.style.position = "absolute";
                 addTextInput.style.left = `${x}px`;
-                addTextInput.style.top = `${y}px`;
+                addTextInput.style.top = `${y - 10}px`;
                 addTextInput.style.backgroundColor = "transparent";
                 addTextInput.style.border = "none";
                 addTextInput.style.width = "100px";
@@ -214,13 +217,6 @@ const ImagePic: React.FC = () => {
                 addTextInput.style.cursor = "text";
                 addTextInput.value = "";
 
-                const cursor = document.createElement("span");
-                cursor.classList.add("blink");
-
-                const blinkInterval = setInterval(() => {
-                    cursor.style.opacity = cursor.style.opacity === "0" ? "1" : "0";
-                }, 500);
-
                 addTextInput.addEventListener("keydown", (event) => {
                     if (event.key === "Enter") {
                       event.preventDefault();
@@ -229,11 +225,8 @@ const ImagePic: React.FC = () => {
                       const ctx = canvas.getContext("2d");
                       ctx.font = "40px Arial";
                       ctx.fillText(addTextInput.value, x * (canvas.width / canvasWidth), y * (canvas.height / canvasHeight));
-                      addTextInput.blur();
-                      cursor.remove();
-                      clearInterval(blinkInterval);
                       addTextInput.remove();
-                      setIsAddingText(false);
+                      //setIsAddingText(false);
                     }
                 });
 
