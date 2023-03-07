@@ -125,6 +125,7 @@ const ImagePic: React.FC = () => {
         // Code that enables drawing on the canvas
         if (pencilIconColor === "green") {
             canvas.style.backgroundColor = "red";
+            canvas.style.zIndex = "1000000000000000000";
 
             // Boolean to check the drawing status
             let isDrawing = false;
