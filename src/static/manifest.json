@@ -12,6 +12,9 @@
         {
             "resources": [
                 "screen-capture-icon.png",
+                "fullscreen-icon.png",
+                "kollabhome-icon.png",
+                "selective-capture.png",
                 "pencil.png"
             ],
             "matches": ["<all_urls>"]

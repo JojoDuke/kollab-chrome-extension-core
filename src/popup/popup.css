@@ -8,3 +8,47 @@ body {
     height: auto;
     width: 300px;
 }
+
+
+.fscHover{
+    border-radius: 8px;
+    width: 290px;
+    height: 56px;
+    position: absolute;
+    left: 5px;
+    z-index: -1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.scHover{
+    border-radius: 8px;
+    width: 290px;
+    height: 64px;
+    position: absolute;
+    left: 5px;
+    top: 65px;
+    z-index: -1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.fpcHover{
+    border-radius: 8px;
+    width: 290px;
+    height: 57px;
+    position: absolute;
+    left: 5px;
+    top: 130px;
+    z-index: -1;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.khHover{
+    border-radius: 8px;
+    width: 290px;
+    height: 55px;
+    position: absolute;
+    left: 5px;
+    top: 187px;
+    z-index: -1;
+    transition: opacity 0.2s ease-in-out;
+}
