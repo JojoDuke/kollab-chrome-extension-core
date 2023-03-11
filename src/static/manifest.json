@@ -2,12 +2,21 @@
     "manifest_version": 3,
     "name": "Kollab Extension",
     "description": "Collaboration chrome extension",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "action" : {
         "default_popup": "popup.html",
         "default_title": "Kollab Extension",
         "default_icon" : "icon.png"
     },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "screen-capture-icon.png",
+                "pencil.png"
+            ],
+            "matches": ["<all_urls>"]
+        }
+    ],
     "permissions": [
         "tabs",
         "bookmarks",

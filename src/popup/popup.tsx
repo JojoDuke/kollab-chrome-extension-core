@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+//import scIcon from '../static/screen-capture-icon.png';
 import './popup.css'
 
 const Popup = () => {
@@ -37,7 +38,7 @@ const Popup = () => {
             
             <div className="masterDiv">
                 <div>
-                    <div>theImage</div>
+                    <img src="screen-capture-icon.png" alt="screen-capture-icon" />
                     <div>
                         <h3>Screen Capture</h3>
                         <h5>Capture and share screenshots of your screen with ease</h5>

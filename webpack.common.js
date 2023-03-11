@@ -24,6 +24,47 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
+                test: /\.resources$/,
+                use: 'raw-loader'
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                        name: '[name].[ext]',
+                        outputPath: 'images/',
+                        },
+                    },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                        mozjpeg: {
+                            progressive: true,
+                            quality: 65,
+                        },
+                        // Optimize PNG images with pngquant
+                        pngquant: {
+                            enabled: false,
+                        },
+                        // Optimize GIF images with gifsicle
+                        gifsicle: {
+                            interlaced: false,
+                        },
+                        // Optimize SVG images with svgo
+                        svgo: {
+                            removeViewBox: false,
+                        },
+                        // Optimize JPG images with optipng
+                        optipng: {
+                            optimizationLevel: 4,
+                        },
+                        },
+                    },
+                    ],
+            },
+            {
                 test: /\.css$/i,
                 use: [
                     'style-loader',
