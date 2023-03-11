@@ -34,7 +34,18 @@ const Popup = () => {
                 onClick={takeScreenshot}>
                 Take Screenshot
             </button>
-            <div>plox</div>
+            
+            <div className="masterDiv">
+                <div>
+                    <div>theImage</div>
+                    <div>
+                        <h3>Screen Capture</h3>
+                        <h5>Capture and share screenshots of your screen with ease</h5>
+                    </div>
+                </div>
+
+
+            </div>
             <div ref={statusRef} id="status"></div>
 
         </div>
