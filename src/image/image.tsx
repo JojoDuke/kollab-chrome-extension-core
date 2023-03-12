@@ -286,8 +286,8 @@ const ImagePic: React.FC = () => {
             magnifyBtn.style.height = "35px";
             magnifyBtn.style.borderRadius = "50%";
             magnifyBtn.style.position = "fixed";
-            magnifyBtn.style.top = "30px";
-            magnifyBtn.style.right = "470px";
+            magnifyBtn.style.top = "110px";
+            magnifyBtn.style.right = "570px";
             magnifyBtn.style.display = "flex";
             magnifyBtn.style.justifyContent = "center";
             magnifyBtn.style.alignItems = "center";
@@ -340,6 +340,28 @@ const ImagePic: React.FC = () => {
                     </div>
                     <div className="exit">
                         <img src="logout-red.png" alt="logout" />
+                    </div>
+                </div>
+            </div>
+
+            <div className="topbar">
+                <div className="image-name-div">
+                    <img src="" alt="image-icon" />
+                    <p>Image Name</p>
+                </div>
+                <div className="triggers">
+                    <button>Share Board</button>
+                    <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilIconColor }}>
+                        <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
+                    </button>
+                </div>
+                <div className="user-profile-div">
+                    <div>
+                        <p>Username</p>
+                        <p>Email</p>
+                    </div>
+                    <div className="user-profile-image">
+                        {/*<img src="" alt="user-profile-image" />*/}
                     </div>
                 </div>
             </div>
