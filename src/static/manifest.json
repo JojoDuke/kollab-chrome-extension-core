@@ -16,10 +16,13 @@
                 "kollabhome-icon.png",
                 "selective-capture.png",
                 "tempLogo.png",
-                "home-outline.png",
                 "logout-red.png",
+                "home-outline.png",
                 "folder-outline.png",
                 "settings-outline.png",
+                "home-filled.png",
+                "folder-filled.png",
+                "settings-filled.png",
                 "pencil.png"
             ],
             "matches": ["<all_urls>"]

@@ -324,11 +324,22 @@ const ImagePic: React.FC = () => {
         <div className="main">
             <div className="wrapper">
                 <div className="sidebar">
-                    <div className="profile">
-                        <img src="https://w7.pngwing.com/pngs/184/113/png-transparent-user-profile-computer-icons-profile-heroes-black-silhouette-thumbnail.png" alt="profile_picture"/>
-                        <h3>Username</h3>
-                        <div className="line"></div>
-                        <div className="img1"></div>
+                    <div className="logo-div cursor-pointer">
+                        <img src="tempLogo.png" alt="kollab-logo" />
+                    </div>
+                    <div className="sidebar-buttons">
+                        <div className="home">
+                            <img src="home-outline.png" alt="home" />
+                        </div>
+                        <div className="folder">
+                            <img src="folder-outline.png" alt="other-projects" />
+                        </div>
+                        <div className="settings">
+                            <img src="settings-outline.png" alt="settings" />
+                        </div>
+                    </div>
+                    <div className="exit">
+                        <img src="logout-red.png" alt="logout" />
                     </div>
                 </div>
             </div>
