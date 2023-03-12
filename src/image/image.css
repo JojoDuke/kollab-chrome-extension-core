@@ -172,12 +172,12 @@ canvas{
 
 /* ===== Sidebar CSS ===== */
 .wrapper .sidebar{
-        background: #B24BF3;
-        width: 200px;
-        height: 100%;
-        padding: 20px 0;
-        transition: all 0.5s ease;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background: #FFFFFF;
+    width: 100px;
+    height: 100%;
+    padding: 20px 0;
+    transition: all 0.5s ease;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .wrapper .sidebar .profile{
