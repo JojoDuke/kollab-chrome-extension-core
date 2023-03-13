@@ -395,7 +395,6 @@ const ImagePic: React.FC = () => {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };
