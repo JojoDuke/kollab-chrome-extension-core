@@ -350,9 +350,12 @@ const ImagePic: React.FC = () => {
                     <p>Image Name</p>
                 </div>
                 <div className="triggers">
-                    <button>Share Board</button>
+                    <button className="shareboard-btn">Share Board</button>
                     <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilIconColor }}>
                         <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
+                    </button>
+                    <button className="circle_button" id="addTextIcon" onClick={handleAddTextClick} style={{ backgroundColor: addTextIconColor }}>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2087/2087807.png" width="20px"/>
                     </button>
                 </div>
                 <div className="user-profile-div">
