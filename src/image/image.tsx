@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./image.css";
 import axios from "axios";
 import CommentsViewItem from "./imageComponents/commentsViewItem";
+import OtherProjectsFolder from "./imageComponents/OtherProjectsFolder";
 
 const ImagePic: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -18,6 +19,7 @@ const ImagePic: React.FC = () => {
     const [addTextIconColor, setAddTextColor] = useState('#d9d9d9');
     const [isAddingText, setIsAddingText] = useState(false);
     const [savedState, setSavedState] = useState<string>('');
+    const [selectedButton, setSelectedButton] = useState('home');
 
     // Fetch comments when the component mounts
     useEffect(() => {
@@ -38,6 +40,11 @@ const ImagePic: React.FC = () => {
 
             
         }, []);
+
+        // Function to switch selected/focused sidebar button
+        const switchSidebarButton = (buttonName) => {
+            setSelectedButton(buttonName);
+        };
 
     // Function for when the send button is clicked
     const handleSendClick = () => {
@@ -124,9 +131,6 @@ const ImagePic: React.FC = () => {
 
         // Code that enables drawing on the canvas
         if (pencilIconColor === "green") {
-            //canvas.style.backgroundColor = "red";
-            //canvas.style.zIndex = "1000000000000000000";
-
             // Boolean to check the drawing status
             let isDrawing = false;
     
@@ -328,14 +332,14 @@ const ImagePic: React.FC = () => {
                         <img src="tempLogo.png" alt="kollab-logo" />
                     </div>
                     <div className="sidebar-buttons">
-                        <div className="home">
-                            <img src="home-outline.png" alt="home" />
+                        <div className={`home ${selectedButton === 'home' ? 'selected' : ''}`} onClick={() => switchSidebarButton('home')}>
+                            <img src={selectedButton === 'home' ? 'home-filled.png' : 'home-outline.png'} alt="home" />
                         </div>
-                        <div className="folder">
-                            <img src="folder-outline.png" alt="other-projects" />
+                        <div className={`folder ${selectedButton === 'folder' ? 'selected' : ''}`} onClick={() => switchSidebarButton('folder')}>
+                            <img src={selectedButton === 'folder' ? 'folder-filled.png' : 'folder-outline.png'} alt="other-projects" />
                         </div>
-                        <div className="settings">
-                            <img src="settings-outline.png" alt="settings" />
+                        <div className={`settings ${selectedButton === 'settings' ? 'selected' : ''}`} onClick={() => switchSidebarButton('settings')}>
+                            <img src={selectedButton === 'settings' ? 'settings-filled.png' : 'settings-outline.png'} alt="settings" />
                         </div>
                     </div>
                     <div className="exit">
@@ -369,29 +373,31 @@ const ImagePic: React.FC = () => {
                 </div>
             </div>
 
-            <div id="canvasContainer" ref={canvasContainerRef}>
-                <canvas ref={canvasRef}>
-                </canvas>
-            </div>
-
-            <div className="comment_area">
-                <div className="comment_status">
-                    <input type="radio" name="status" value="unresolved" id="unresolved" defaultChecked />
-                    <label htmlFor="unresolved">Unresolved</label>
-                    <input type="radio" name="status" value="resolved" id="resolved" />
-                    <label htmlFor="resolved">Resolved</label>
+            <div className="mainSelectedDiv">
+                <div id="canvasContainer" ref={canvasContainerRef}>
+                    <canvas ref={canvasRef}>
+                    </canvas>
                 </div>
 
-                <div className="commentsView" ref={commentsViewRef}>
-                    {commentItems}
-                </div>
+                <div className="comment_area">
+                    <div className="comment_status">
+                        <input type="radio" name="status" value="unresolved" id="unresolved" defaultChecked />
+                        <label htmlFor="unresolved">Unresolved</label>
+                        <input type="radio" name="status" value="resolved" id="resolved" />
+                        <label htmlFor="resolved">Resolved</label>
+                    </div>
 
-                <div className="comment_input">
-                    <input type="text" placeholder="Write a comment" onKeyDown={handleKeyPress}/>
-                    <div className="commentButtons">
-                        <button className="circle_button" id="sendIcon" onClick={handleSendClick}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/3024/3024593.png" width="20px"/>
-                        </button>
+                    <div className="commentsView" ref={commentsViewRef}>
+                        {commentItems}
+                    </div>
+
+                    <div className="comment_input">
+                        <input type="text" placeholder="Write a comment" onKeyDown={handleKeyPress}/>
+                        <div className="commentButtons">
+                            <button className="circle_button" id="sendIcon" onClick={handleSendClick}>
+                                <img src="https://cdn-icons-png.flaticon.com/512/3024/3024593.png" width="20px"/>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
