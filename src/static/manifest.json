@@ -23,6 +23,7 @@
                 "home-filled.png",
                 "folder-filled.png",
                 "settings-filled.png",
+                "img-icon.png",
                 "pencil.png"
             ],
             "matches": ["<all_urls>"]

@@ -346,11 +346,11 @@ const ImagePic: React.FC = () => {
 
             <div className="topbar">
                 <div className="image-name-div">
-                    <img src="" alt="image-icon" />
+                    <img src="img-icon.png" alt="image-icon" width="35"/>
                     <p>Image Name</p>
                 </div>
                 <div className="triggers">
-                    <button className="shareboard-btn">Share Board</button>
+                    <button className="shareboard-btn cursor-pointer">Share Board</button>
                     <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilIconColor }}>
                         <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
                     </button>
@@ -391,12 +391,6 @@ const ImagePic: React.FC = () => {
                     <div className="commentButtons">
                         <button className="circle_button" id="sendIcon" onClick={handleSendClick}>
                             <img src="https://cdn-icons-png.flaticon.com/512/3024/3024593.png" width="20px"/>
-                        </button>
-                        <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilIconColor }}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
-                        </button>
-                        <button className="circle_button" id="addTextIcon" onClick={handleAddTextClick} style={{ backgroundColor: addTextIconColor }}>
-                            <img src="https://cdn-icons-png.flaticon.com/512/2087/2087807.png" width="20px"/>
                         </button>
                     </div>
                 </div>
