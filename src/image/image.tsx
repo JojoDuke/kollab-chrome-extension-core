@@ -20,6 +20,9 @@ const ImagePic: React.FC = () => {
     const [isAddingText, setIsAddingText] = useState(false);
     const [savedState, setSavedState] = useState<string>('');
     const [selectedButton, setSelectedButton] = useState('home');
+    const [isFolderClicked, setIsFolderClicked] = useState(false);
+    const [isSettingsClicked, setIsSettingsClicked] = useState(false);
+
 
     // Fetch comments when the component mounts
     useEffect(() => {
@@ -44,6 +47,18 @@ const ImagePic: React.FC = () => {
         // Function to switch selected/focused sidebar button
         const switchSidebarButton = (buttonName) => {
             setSelectedButton(buttonName);
+            
+            if (buttonName === 'folder') {
+                setIsFolderClicked(true);
+            } else {
+                setIsFolderClicked(false);
+            }
+
+            if (buttonName === 'settings') {
+                setIsFolderClicked(true);
+            } else {
+                setIsFolderClicked(false);
+            }
         };
 
     // Function for when the send button is clicked
@@ -373,33 +388,37 @@ const ImagePic: React.FC = () => {
                 </div>
             </div>
 
-            <div className="mainSelectedDiv">
-                <div id="canvasContainer" ref={canvasContainerRef}>
-                    <canvas ref={canvasRef}>
-                    </canvas>
-                </div>
+            <div>
+                {isFolderClicked ? (<OtherProjectsFolder/>) : (
+                    <div className="mainSelectedDiv">
+                            <div id="canvasContainer" ref={canvasContainerRef}>
+                                <canvas ref={canvasRef}>
+                                </canvas>
+                            </div>
 
-                <div className="comment_area">
-                    <div className="comment_status">
-                        <input type="radio" name="status" value="unresolved" id="unresolved" defaultChecked />
-                        <label htmlFor="unresolved">Unresolved</label>
-                        <input type="radio" name="status" value="resolved" id="resolved" />
-                        <label htmlFor="resolved">Resolved</label>
-                    </div>
+                        <div className="comment_area">
+                            <div className="comment_status">
+                                <input type="radio" name="status" value="unresolved" id="unresolved" defaultChecked />
+                                <label htmlFor="unresolved">Unresolved</label>
+                                <input type="radio" name="status" value="resolved" id="resolved" />
+                                <label htmlFor="resolved">Resolved</label>
+                            </div>
 
-                    <div className="commentsView" ref={commentsViewRef}>
-                        {commentItems}
-                    </div>
+                            <div className="commentsView" ref={commentsViewRef}>
+                                {commentItems}
+                            </div>
 
-                    <div className="comment_input">
-                        <input type="text" placeholder="Write a comment" onKeyDown={handleKeyPress}/>
-                        <div className="commentButtons">
-                            <button className="circle_button" id="sendIcon" onClick={handleSendClick}>
-                                <img src="https://cdn-icons-png.flaticon.com/512/3024/3024593.png" width="20px"/>
-                            </button>
+                            <div className="comment_input">
+                                <input type="text" placeholder="Write a comment" onKeyDown={handleKeyPress}/>
+                                <div className="commentButtons">
+                                    <button className="circle_button" id="sendIcon" onClick={handleSendClick}>
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3024/3024593.png" width="20px"/>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     );

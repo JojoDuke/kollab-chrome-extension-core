@@ -1,9 +1,9 @@
 import React from 'react';
-import './OtherProjectsFolder';
+import './OtherProjectsFolder.css';
 
 function OtherProjectsFolder() {
   return (
-    <div>OtherProjectsFolder</div>
+    <div className='mainOPF'>OtherProjectsFolder</div>
   )
 }
 
