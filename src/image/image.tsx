@@ -3,6 +3,7 @@ import "./image.css";
 import axios from "axios";
 import CommentsViewItem from "./imageComponents/commentsViewItem";
 import OtherProjectsFolder from "./imageComponents/OtherProjectsFolder";
+import UserSettings from "./imageComponents/UserSettings";
 
 const ImagePic: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -55,9 +56,9 @@ const ImagePic: React.FC = () => {
             }
 
             if (buttonName === 'settings') {
-                setIsFolderClicked(true);
+                setIsSettingsClicked(true);
             } else {
-                setIsFolderClicked(false);
+                setIsSettingsClicked(false);
             }
         };
 
