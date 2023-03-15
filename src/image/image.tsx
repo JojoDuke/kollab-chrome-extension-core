@@ -19,6 +19,8 @@ const ImagePic: React.FC = () => {
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
     const [addTextIconColor, setAddTextColor] = useState('#d9d9d9');
     const [isAddingText, setIsAddingText] = useState(false);
+    const [isAddingDrawing, setIsAddingDrawing] = useState(false);
+    const [isPencilSelected, setIsPencilSelected] = useState(false);
     const [savedState, setSavedState] = useState<string>('');
     const [selectedButton, setSelectedButton] = useState('home');
     const [isFolderClicked, setIsFolderClicked] = useState(false);
@@ -111,22 +113,24 @@ const ImagePic: React.FC = () => {
         }
       }
 
+      const pencilSelectedColor = isAddingDrawing || isPencilSelected ? 'green' : '#d9d9d9';
+      const colorIfSelected = isAddingText ? 'red' : '#d9d9d9';
 
     // Function for when the pencil button is clicked
     const handlePencilClick = () => {
-        const newColor = pencilIconColor === '#d9d9d9' ? 'green' : '#d9d9d9';
-        if (newColor === "#d9d9d9") {
-            // Restore image from state
-            const canvas = canvasRef.current;
-            setSavedState(canvas.toDataURL());
-        }
-        setPencilIconColor(newColor);
+        setPencilIconColor(pencilSelectedColor);
+
+        setIsAddingDrawing(true);
+        setIsAddingText(false);
+        setIsPencilSelected(prevState => !prevState);
     };
 
     // Function for when the add text button is clicked
     const handleAddTextClick = () => {
-        const colorIfSelected = addTextIconColor === '#d9d9d9' ? 'red' : '#d9d9d9';
         setAddTextColor(colorIfSelected);
+
+        setIsAddingText(true);
+        setIsAddingDrawing(false);
     };
 
     useEffect(() => {
@@ -146,7 +150,7 @@ const ImagePic: React.FC = () => {
         }
 
         // Code that enables drawing on the canvas
-        if (pencilIconColor === "green") {
+        const DrawingFeature = () => {
             // Boolean to check the drawing status
             let isDrawing = false;
     
@@ -371,10 +375,10 @@ const ImagePic: React.FC = () => {
                 </div>
                 <div className="triggers">
                     <button className="shareboard-btn cursor-pointer">Share Board</button>
-                    <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilIconColor }}>
+                    <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilSelectedColor }}>
                         <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
                     </button>
-                    <button className="circle_button" id="addTextIcon" onClick={handleAddTextClick} style={{ backgroundColor: addTextIconColor }}>
+                    <button className="circle_button" id="addTextIcon" onClick={handleAddTextClick} style={{ backgroundColor: colorIfSelected }}>
                         <img src="https://cdn-icons-png.flaticon.com/512/2087/2087807.png" width="20px"/>
                     </button>
                 </div>
