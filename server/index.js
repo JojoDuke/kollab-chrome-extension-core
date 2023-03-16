@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const CommentsModel = require("./Models/Comments");
+const CanvasStateModel = require("./Models/CanvasState");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
@@ -33,6 +34,19 @@ app.post('/addComment', async (req, res) => {
     await newComment.save();
 
     res.json(comment);
+});
+
+//Save canvas state
+app.post("/saveCanvas", async (req, res) => {
+    const canvas = new CanvasStateModel({ canvasData: canvasState });
+
+    try {
+        await canvas.save();
+        res.send('Canvas state saved successfully');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error saving canvas state');
+    }
 });
 
 

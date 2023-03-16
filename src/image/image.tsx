@@ -27,12 +27,10 @@ const ImagePic: React.FC = () => {
     const [isFolderClicked, setIsFolderClicked] = useState(false);
     const [isSettingsClicked, setIsSettingsClicked] = useState(false);
 
-
     // Fetch comments when the component mounts
     useEffect(() => {
         axios.get('http://localhost:5000/')
             .then(response => {
-                //setComments(response.data);
                 setComments(response.data.map(comment => ({
                     ...comment,
                     username: 'Username',
@@ -403,8 +401,8 @@ const ImagePic: React.FC = () => {
             </div>
 
             <div>
-                {isFolderClicked ? (<OtherProjectsFolder/>) : (
-                    <div className="mainSelectedDiv">
+                {isFolderClicked ? (<OtherProjectsFolder/>) : isSettingsClicked ? (<UserSettings/>) :
+                    (<div className="mainSelectedDiv">
                             <div id="canvasContainer" ref={canvasContainerRef}>
                                 <canvas ref={canvasRef}>
                                 </canvas>
