@@ -7,5 +7,5 @@ const canvasSchema = new mongoose.Schema({
   },
 });
 
-const CanvasStateModel = mongoose.model('Canvas', canvasSchema);
+const CanvasStateModel = mongoose.model('canvas-states', canvasSchema);
 module.exports = CanvasStateModel;

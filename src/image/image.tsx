@@ -22,7 +22,7 @@ const ImagePic: React.FC = () => {
     const [isTextSelected, setIsTextSelected] = useState(false);
     const [isAddingDrawing, setIsAddingDrawing] = useState(false);
     const [isPencilSelected, setIsPencilSelected] = useState(false);
-    const [savedState, setSavedState] = useState<string>('');
+    const [canvasState, setCanvasState] = useState<string>('');
     const [selectedButton, setSelectedButton] = useState('home');
     const [isFolderClicked, setIsFolderClicked] = useState(false);
     const [isSettingsClicked, setIsSettingsClicked] = useState(false);
@@ -168,17 +168,6 @@ const ImagePic: React.FC = () => {
             });
     
             const startDraw = (e) => {
-                if (savedState) {
-                    // Restore image from state
-                    const canvas = canvasRef.current;
-                    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-                    const img = new Image();
-                    img.onload = () => {
-                      ctx.drawImage(img, 0, 0);
-                    };
-                    img.src = savedState;
-                    setSavedState('');
-                }
                 isDrawing = true;
                 ctx.beginPath();
 
@@ -203,6 +192,15 @@ const ImagePic: React.FC = () => {
             canvas.addEventListener("mousemove", drawing);
             canvas.addEventListener("mouseup", () => {
                 isDrawing = false;
+
+                //Save the canvas once the user is done drawing
+                axios.post("http://localhost:5000/saveCanvas", {
+                    canvasData: canvas.toDataURL()
+                })
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch((error) => alert(error.response));
             });
     
             return () => {
