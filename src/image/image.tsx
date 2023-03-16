@@ -19,6 +19,7 @@ const ImagePic: React.FC = () => {
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
     const [addTextIconColor, setAddTextColor] = useState('#d9d9d9');
     const [isAddingText, setIsAddingText] = useState(false);
+    const [isTextSelected, setIsTextSelected] = useState(false);
     const [isAddingDrawing, setIsAddingDrawing] = useState(false);
     const [isPencilSelected, setIsPencilSelected] = useState(false);
     const [savedState, setSavedState] = useState<string>('');
@@ -113,29 +114,38 @@ const ImagePic: React.FC = () => {
         }
       }
 
-      const pencilSelectedColor = isAddingDrawing || isPencilSelected ? 'green' : '#d9d9d9';
-      const colorIfSelected = isAddingText ? 'red' : '#d9d9d9';
+      const pencilSelectedColor = isAddingDrawing && isPencilSelected ? 'green' : '#d9d9d9';
+      const textSelectedColor = isAddingText && isTextSelected ? 'red' : '#d9d9d9';
 
     // Function for when the pencil button is clicked
     const handlePencilClick = () => {
-        setPencilIconColor(pencilSelectedColor);
-
+        setIsPencilSelected(true);
+        setIsTextSelected(false);
         setIsAddingDrawing(true);
         setIsAddingText(false);
-        setIsPencilSelected(prevState => !prevState);
+        setPencilIconColor('green');
+        setAddTextColor('#d9d9d9');
     };
 
     // Function for when the add text button is clicked
     const handleAddTextClick = () => {
-        setAddTextColor(colorIfSelected);
-
-        setIsAddingText(true);
+        setIsPencilSelected(false);
+        setIsTextSelected(true);
         setIsAddingDrawing(false);
+        setIsAddingText(true);
+        setAddTextColor('red');
+        setPencilIconColor('#d9d9d9');
     };
 
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+        if (isAddingText && isTextSelected) {
+            canvas.style.cursor = "text";
+          } else {
+            canvas.style.cursor = "default";
+          }
 
         const container = canvasContainerRef.current;
         const containerRect = container.getBoundingClientRect();
@@ -150,7 +160,7 @@ const ImagePic: React.FC = () => {
         }
 
         // Code that enables drawing on the canvas
-        const DrawingFeature = () => {
+        if (isAddingDrawing && isPencilSelected) {
             // Boolean to check the drawing status
             let isDrawing = false;
     
@@ -212,10 +222,9 @@ const ImagePic: React.FC = () => {
         }
 
         // Code for adding text to the canvas
-        if (addTextIconColor === "red") {
+        if (isAddingText && isTextSelected) {
             const canvas = canvasRef.current;
             const ctx = canvas.getContext("2d", { willReadFrequently: true });
-            canvas.style.cursor = "text";
 
             // Add text function
             const addText = (e) => {
@@ -378,7 +387,7 @@ const ImagePic: React.FC = () => {
                     <button className="circle_button" id="pencilIcon" onClick={handlePencilClick} style={{ backgroundColor: pencilSelectedColor }}>
                         <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" width="20px"/>
                     </button>
-                    <button className="circle_button" id="addTextIcon" onClick={handleAddTextClick} style={{ backgroundColor: colorIfSelected }}>
+                    <button className="circle_button" id="addTextIcon" onClick={handleAddTextClick} style={{ backgroundColor: textSelectedColor }}>
                         <img src="https://cdn-icons-png.flaticon.com/512/2087/2087807.png" width="20px"/>
                     </button>
                 </div>
