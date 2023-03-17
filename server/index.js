@@ -16,8 +16,8 @@ const PORT = 5000;
 //Used to parse the JSON
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json({limit: '10mb', extended: true}));
-app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+app.use(bodyParser.json({limit: '10000mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '10000mb', extended: true}));
 
 //GET Request
 app.get('/', (req, res) => {
