@@ -200,7 +200,6 @@ const ImagePic: React.FC = () => {
                     .then((response) => {
                         console.log(response);
                     })
-                    .catch((error) => alert(error.response));
             });
     
             return () => {
