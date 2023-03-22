@@ -29,7 +29,7 @@ const ImagePic: React.FC = () => {
 
     // Fetch comments when the component mounts
     useEffect(() => {
-        axios.get('http://localhost:5000/')
+        axios.get('https://kollab-core-server-jojoamankwa.koyeb.app/')
             .then(response => {
                 setComments(response.data.map(comment => ({
                     ...comment,
@@ -75,7 +75,7 @@ const ImagePic: React.FC = () => {
           }
 
         //A POST request function that adds a comment to the database
-        axios.post("http://localhost:5000/addComment", {
+        axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/addComment", {
             comment_text: commentText,
             //Post the current time when comment is sent
             comment_time: theTime
@@ -194,7 +194,7 @@ const ImagePic: React.FC = () => {
                 isDrawing = false;
 
                 //Save the canvas once the user is done drawing
-                axios.post("http://localhost:5000/saveCanvas", {
+                axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/saveCanvas", {
                     canvasData: canvas.toDataURL()
                 })
                     .then((response) => {
