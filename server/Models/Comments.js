@@ -8,6 +8,10 @@ const CommentsSchema = new mongoose.Schema({
     comment_time: {
         type: String,
         required: true,
+    },
+    comment_resolved: {
+        type: Boolean,
+        required: false,
     }
 });
 

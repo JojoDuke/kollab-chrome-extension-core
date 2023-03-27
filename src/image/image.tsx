@@ -88,9 +88,9 @@ const ImagePic: React.FC = () => {
 
         //A POST request function that adds a comment to the database
         axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/addComment", {
-            comment_text: commentText,
-            //Post the current time when comment is sent
-            comment_time: theTime
+            comment_text: commentText, // The text in the input box
+            comment_time: theTime, // Post the current time when comment is sent
+            comment_resolved: false,
         })
             .then((response) => {
                 commentInput.value = '';
