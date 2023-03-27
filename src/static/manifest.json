@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Kollab Extension",
     "description": "Collaboration chrome extension",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "action" : {
         "default_popup": "popup.html",
         "default_title": "Kollab Extension",

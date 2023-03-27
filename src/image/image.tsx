@@ -14,8 +14,14 @@ const ImagePic: React.FC = () => {
     const now = new Date();
     const theTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+    // States for the Comments Box
     const [comments, setComments] = useState([]);
     const [username, setUsername] = useState('');
+    const [commentsStatus, setCommentsStatus] = useState("unresolved");
+    const [unresolvedComments, setUnresolvedComments] = useState([]);
+    const [resolvedComments, setResolvedComments] = useState([]);
+
+    // States for Canvas and buttons
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
     const [addTextIconColor, setAddTextColor] = useState('#d9d9d9');
     const [isAddingText, setIsAddingText] = useState(false);
@@ -63,6 +69,12 @@ const ImagePic: React.FC = () => {
             }
         };
 
+    // 
+    const handleCommentStatusChange = (e) => {
+        setCommentsStatus(e.target.value);
+        //setComments([]);
+    };
+
     // Function for when the send button is clicked
     const handleSendClick = () => {
         const commentInput = document.querySelector('.comment_input input') as HTMLInputElement;
@@ -84,7 +96,11 @@ const ImagePic: React.FC = () => {
                 commentInput.value = '';
                 
                 const newComment = { id: response.data.id, comment_text: commentText, username: username, comment_time: theTime };
-                setComments([...comments, newComment]);
+                if (commentsStatus === "unresolved") {
+                    setComments([...comments, newComment]);
+                } else {
+                    setResolvedComments([...resolvedComments, newComment]);
+                }
 
             }).catch((error) => alert(error.response));
     }
@@ -101,9 +117,14 @@ const ImagePic: React.FC = () => {
       }
 
     // Render comments in the commentsView div
-    const commentItems = comments.map(comment => {
-        return <CommentsViewItem key={comment.id} username={comment.username} comment_time={comment.comment_time} comment_text={comment.comment_text} />;
-    });
+    let commentItems;
+    if (commentsStatus === "unresolved") {
+        commentItems = comments.map(comment => {
+            return <CommentsViewItem key={comment.id} username={comment.username} comment_time={comment.comment_time} comment_text={comment.comment_text} />;
+        });
+    } else {
+        commentItems = resolvedComments.length > 0 ? (resolvedComments.map((comment) => <div>{comment}</div>)) : (<div className="no-comment">No resolved comments yet</div>);
+    }
 
     // Function for when enter is pressed on input
     const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -407,9 +428,22 @@ const ImagePic: React.FC = () => {
 
                         <div className="comment_area">
                             <div className="comment_status">
-                                <input type="radio" name="status" value="unresolved" id="unresolved" defaultChecked />
+                                <input 
+                                    type="radio" 
+                                    name="status" 
+                                    value="unresolved" 
+                                    id="unresolved" 
+                                    checked={commentsStatus === "unresolved"}
+                                    onChange={handleCommentStatusChange}
+                                    defaultChecked />
                                 <label htmlFor="unresolved">Unresolved</label>
-                                <input type="radio" name="status" value="resolved" id="resolved" />
+                                <input 
+                                    type="radio" 
+                                    name="status" 
+                                    value="resolved" 
+                                    id="resolved"
+                                    checked={commentsStatus === "resolved"}
+                                    onChange={handleCommentStatusChange} />
                                 <label htmlFor="resolved">Resolved</label>
                             </div>
 

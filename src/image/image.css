@@ -104,6 +104,8 @@ canvas{
     background-color: #ba7eec;
 }
 
+
+
 /* Comment View */
 .commentsView{
     background-color: #cd87f9;
@@ -112,6 +114,14 @@ canvas{
     position: relative;
     overflow-y: auto;
     z-index: 0;
+}
+
+.no-comment{
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    margin-top: 50%;
+    text-align: center;
 }
 
 .commentsViewItem{
