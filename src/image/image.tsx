@@ -69,10 +69,9 @@ const ImagePic: React.FC = () => {
             }
         };
 
-    // 
+    // Change comment status
     const handleCommentStatusChange = (e) => {
         setCommentsStatus(e.target.value);
-        //setComments([]);
     };
 
     // Function for when the send button is clicked
@@ -95,7 +94,7 @@ const ImagePic: React.FC = () => {
             .then((response) => {
                 commentInput.value = '';
                 
-                const newComment = { id: response.data.id, comment_text: commentText, username: username, comment_time: theTime };
+                const newComment = { id: response.data.id, comment_text: commentText, username: username, comment_time: theTime, comment_resolved: false };
                 if (commentsStatus === "unresolved") {
                     setComments([...comments, newComment]);
                 } else {
@@ -114,16 +113,39 @@ const ImagePic: React.FC = () => {
       const scrollToBottom = () => {
         commentsViewRef.current.scrollTop = commentsViewRef.current.scrollHeight;
         commentsViewRef.current.style.scrollBehavior = 'smooth';
-      }
+      };
+
+    // Callback function to move comment to resolved list
+    const markAsResolved = (comment) => {
+        // Remove comment from comments state
+        setComments(comments.filter((c) => c !== comment));
+        
+        // Add comment to resolvedCommentList state
+        setResolvedComments([...resolvedComments, comment]);
+    };
 
     // Render comments in the commentsView div
     let commentItems;
     if (commentsStatus === "unresolved") {
         commentItems = comments.map(comment => {
-            return <CommentsViewItem key={comment.id} username={comment.username} comment_time={comment.comment_time} comment_text={comment.comment_text} />;
+            return <CommentsViewItem 
+                        key={comment.id} 
+                        username={comment.username} 
+                        comment_time={comment.comment_time} 
+                        comment_text={comment.comment_text} 
+                        comment_resolve={comment.comment_resolve}
+                        onResolve={() => markAsResolved(comment)} />;
         });
     } else {
-        commentItems = resolvedComments.length > 0 ? (resolvedComments.map((comment) => <div>{comment}</div>)) : (<div className="no-comment">No resolved comments yet</div>);
+        commentItems = resolvedComments.length > 0 ? (resolvedComments.map((comment) => 
+            <CommentsViewItem 
+                key={comment.id} 
+                username={comment.username} 
+                comment_time={comment.comment_time} 
+                comment_text={comment.comment_text} 
+                comment_resolve={comment.comment_resolve}
+                onResolve={() => (comment)} />)) 
+                : (<div className="no-comment">No resolved comments yet</div>);
     }
 
     // Function for when enter is pressed on input
