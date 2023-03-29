@@ -30,13 +30,18 @@ app.get('/', (req, res) => {
     });
 });
 
-//POST Request
+//POST Request to add a new comment
 app.post('/addComment', async (req, res) => {
     const comment = req.body
     const newComment = new CommentsModel(comment);
     await newComment.save();
 
     res.json(comment);
+});
+
+//PUT request to update resolved state of comments
+app.put('/updateComment', async (req, res) => {
+    //
 });
 
 //
