@@ -40,8 +40,16 @@ app.post('/addComment', async (req, res) => {
 });
 
 //PUT request to update resolved state of comments
-app.put('/updateComment', async (req, res) => {
+app.put('/updateComment/:id', async (req, res) => {
     //
+    try {
+        const commentId = req.params.id;
+        const updatedComment = await CommentsModel.findByIdAndUpdate(commentId, { comment_resolved: true }, { new: true });
+        res.json(updatedComment);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+      }
 });
 
 //
