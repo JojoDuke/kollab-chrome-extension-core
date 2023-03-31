@@ -18,8 +18,8 @@ const ImagePic: React.FC = () => {
     const [comments, setComments] = useState([]);
     const [username, setUsername] = useState('');
     const [commentsStatus, setCommentsStatus] = useState("unresolved");
-    const [unresolvedComments, setUnresolvedComments] = useState([]);
     const [resolvedComments, setResolvedComments] = useState([]);
+    const [isCommentsLoading, setIsCommentsLoading] = useState(true);
 
     // States for Canvas and buttons
     const [pencilIconColor, setPencilIconColor] = useState('#d9d9d9');
@@ -37,14 +37,20 @@ const ImagePic: React.FC = () => {
     useEffect(() => {
         axios.get('https://kollab-core-server-jojoamankwa.koyeb.app/')
             .then(response => {
-                setComments(response.data.map(comment => ({
+                const allComments = response.data;
+                const updatedComments = allComments.map(comment => ({
                     ...comment,
                     username: 'Username',
-                  })));
+                }));
+
+                setComments(updatedComments.filter(comment => !comment.comment_resolved));
+                setResolvedComments(updatedComments.filter(comment => comment.comment_resolved));
+                setIsCommentsLoading(false);
                   
             })
             .catch(error => {
                 console.error(error);
+                setIsCommentsLoading(false);
             });
 
             setUsername('Username')
@@ -93,8 +99,15 @@ const ImagePic: React.FC = () => {
         })
             .then((response) => {
                 commentInput.value = '';
+
+                const newComment = { 
+                    id: response.data.id,
+                    comment_text: commentText,
+                    username: username,
+                    comment_time: theTime,
+                    comment_resolved: false, // set the initial resolved status to false
+                  };
                 
-                const newComment = { id: response.data.id, comment_text: commentText, username: username, comment_time: theTime, comment_resolved: false };
                 if (commentsStatus === "unresolved") {
                     setComments([...comments, newComment]);
                 } else {
@@ -118,20 +131,21 @@ const ImagePic: React.FC = () => {
     // Callback function to move comment to resolved list
     const markAsResolved = (comment) => {
         // Update the comment to 'Resolved' in the db
-        axios.put(`https://kollab-core-server-jojoamankwa.koyeb.app/updateComment/${comment.id}`, {
+        axios.put(`https://kollab-core-server-jojoamankwa.koyeb.app/updateComment/${comment._id}`, {
             comment_resolved: true,
         })
-            .then(() => {
-                // Remove comment from comments state
-                setComments(comments.filter((c) => c !== comment));
-                
-                // Add comment to resolvedCommentList
-                setResolvedComments([...resolvedComments, comment]);
-        })
-            .catch((err) => {
-                alert(err.response.data.message);
+            .then((response) => {
+                //
             })
-
+            .catch((err) => {
+                alert(JSON.stringify(err.response));
+            });
+            
+            // Remove comment from comments state
+            setComments(comments.filter((c) => c !== comment));
+            
+            // Add comment to resolvedCommentList
+            setResolvedComments([...resolvedComments, comment]);
     };
 
     // Render comments in the commentsView div
@@ -143,7 +157,7 @@ const ImagePic: React.FC = () => {
                         username={comment.username} 
                         comment_time={comment.comment_time} 
                         comment_text={comment.comment_text} 
-                        comment_resolve={comment.comment_resolve}
+                        comment_resolved={comment.comment_resolved}
                         onResolve={() => markAsResolved(comment)} />;
         });
     } else {
@@ -153,7 +167,7 @@ const ImagePic: React.FC = () => {
                 username={comment.username} 
                 comment_time={comment.comment_time} 
                 comment_text={comment.comment_text} 
-                comment_resolve={comment.comment_resolve}
+                comment_resolved={comment.comment_resolved}
                 onResolve={() => (comment)} />)) 
                 : (<div className="no-comment">No resolved comments yet</div>);
     }
