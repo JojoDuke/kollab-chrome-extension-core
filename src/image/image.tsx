@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./image.css";
 import axios from "axios";
 import CommentsViewItem from "./imageComponents/commentsViewItem";
+import ResolvedCommentsViewItem from "./imageComponents/ResolvedCommentsViewItem";
 import OtherProjectsFolder from "./imageComponents/OtherProjectsFolder";
 import UserSettings from "./imageComponents/UserSettings";
 
@@ -135,7 +136,6 @@ const ImagePic: React.FC = () => {
             comment_resolved: true,
         })
             .then((response) => {
-                //
                 // Remove comment from comments state
                 setComments(comments.filter((c) => c !== comment));
                 
@@ -146,6 +146,21 @@ const ImagePic: React.FC = () => {
                 alert(JSON.stringify(err.response));
             });
             
+    };
+
+    //Same callback function to move a resolved comment to unresolved status
+    const markAsUnresolved = async (comment) => {
+        // Update the comment to 'Unresolved' in the database
+        await axios.put(`https://kollab-core-server-jojoamankwa.koyeb.app/updateComment/${comment._id}`, {
+            comment_resolved: false,
+        })
+            .then((response) => {
+                setResolvedComments(resolvedComments.filter((rc) => rc !== comment));
+                setComments([...comments, comment.comment_resolved = true]);
+            })
+            .catch((err) => {
+                alert(JSON.stringify(err.response));
+            });
     };
 
     // Render comments in the commentsView div
@@ -162,13 +177,13 @@ const ImagePic: React.FC = () => {
         });
     } else {
         commentItems = resolvedComments.length > 0 ? (resolvedComments.map((comment) => 
-            <CommentsViewItem 
+            <ResolvedCommentsViewItem 
                 key={comment.id} 
                 username={comment.username} 
                 comment_time={comment.comment_time} 
                 comment_text={comment.comment_text} 
                 comment_resolved={comment.comment_resolved}
-                onResolve={() => (comment)} />)) 
+                onResolve={() => markAsUnresolved(comment)} />)) 
                 : (<div className="no-comment">No resolved comments yet</div>);
     }
 
