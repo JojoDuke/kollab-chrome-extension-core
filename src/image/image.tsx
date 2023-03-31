@@ -129,23 +129,23 @@ const ImagePic: React.FC = () => {
       };
 
     // Callback function to move comment to resolved list
-    const markAsResolved = (comment) => {
-        // Update the comment to 'Resolved' in the db
-        axios.put(`https://kollab-core-server-jojoamankwa.koyeb.app/updateComment/${comment._id}`, {
+    const markAsResolved = async (comment) => {
+        // Update the comment to 'Resolved' in the database
+        await axios.put(`https://kollab-core-server-jojoamankwa.koyeb.app/updateComment/${comment._id}`, {
             comment_resolved: true,
         })
             .then((response) => {
                 //
+                // Remove comment from comments state
+                setComments(comments.filter((c) => c !== comment));
+                
+                // Add comment to resolvedCommentList
+                setResolvedComments([...resolvedComments, comment]);
             })
             .catch((err) => {
                 alert(JSON.stringify(err.response));
             });
             
-            // Remove comment from comments state
-            setComments(comments.filter((c) => c !== comment));
-            
-            // Add comment to resolvedCommentList
-            setResolvedComments([...resolvedComments, comment]);
     };
 
     // Render comments in the commentsView div
