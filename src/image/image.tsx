@@ -156,7 +156,8 @@ const ImagePic: React.FC = () => {
         })
             .then((response) => {
                 setResolvedComments(resolvedComments.filter((rc) => rc !== comment));
-                setComments([...comments, comment.comment_resolved = true]);
+                comment.comment_resolved = false; // Update the comment_resolved property to false
+                setComments([...comments, comment]);
             })
             .catch((err) => {
                 alert(JSON.stringify(err.response));
@@ -183,7 +184,7 @@ const ImagePic: React.FC = () => {
                 comment_time={comment.comment_time} 
                 comment_text={comment.comment_text} 
                 comment_resolved={comment.comment_resolved}
-                onResolve={() => markAsUnresolved(comment)} />)) 
+                onUnresolve={() => markAsUnresolved(comment)} />)) 
                 : (<div className="no-comment">No resolved comments yet</div>);
     }
 

@@ -44,8 +44,17 @@ app.put('/updateComment/:id', async (req, res) => {
     //
     try {
         const commentId = req.params.id;
-        const updatedComment = await CommentsModel.findByIdAndUpdate(commentId, { comment_resolved: true }, { new: true });
-        res.json(updatedComment);
+        const comment = await CommentsModel.findById(commentId);
+
+        if (!comment) {
+            return res.status(404).json({ msg: 'Comment not found' });
+        }
+
+        comment.comment_resolved = !comment.comment_resolved;
+        await comment.save();
+
+        res.json(comment);
+
       } catch (err) {
         console.error(err);
         res.status(500).send('Server error');

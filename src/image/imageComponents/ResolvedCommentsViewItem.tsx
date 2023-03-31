@@ -6,13 +6,13 @@ interface Props {
   comment_text: string;
   comment_time: string;
   comment_resolved: boolean;
-  onResolve: () => void;
+  onUnresolve: () => void;
 }
 
-const ResolvedCommentsViewItem: React.FC<Props> = ({ username, comment_text, comment_time, comment_resolved, onResolve }) => {
+const ResolvedCommentsViewItem: React.FC<Props> = ({ username, comment_text, comment_time, comment_resolved, onUnresolve }) => {
   return (
     <div className="commentsViewItem overflow-hidden relative">
-      <div className='checkmarkBtn' onClick={onResolve}>
+      <div className='checkmarkBtn' onClick={onUnresolve}>
         <p>&#x2716;</p>
       </div>
       {username}
