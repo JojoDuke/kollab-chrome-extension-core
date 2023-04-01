@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./image.css";
 import axios from "axios";
-import CommentsViewItem from "./imageComponents/commentsViewItem";
+import CommentsViewItem from "./imageComponents/CommentsViewItem";
 import ResolvedCommentsViewItem from "./imageComponents/ResolvedCommentsViewItem";
 import OtherProjectsFolder from "./imageComponents/OtherProjectsFolder";
 import UserSettings from "./imageComponents/UserSettings";
@@ -114,7 +114,7 @@ const ImagePic: React.FC = () => {
                     setResolvedComments([...resolvedComments, newComment]);
                 }
 
-            }).catch((error) => alert(error.response));
+            }).catch((error) => alert(JSON.stringify(error.response)));
     }
 
     // Scroll to the bottom of the view on any new comment
