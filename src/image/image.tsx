@@ -169,7 +169,7 @@ const ImagePic: React.FC = () => {
     if (commentsStatus === "unresolved") {
         commentItems = comments.map(comment => {
             return <CommentsViewItem 
-                        key={comment.id} 
+                        key={comment._id} 
                         username={comment.username} 
                         comment_time={comment.comment_time} 
                         comment_text={comment.comment_text} 
@@ -179,7 +179,7 @@ const ImagePic: React.FC = () => {
     } else {
         commentItems = resolvedComments.length > 0 ? (resolvedComments.map((comment) => 
             <ResolvedCommentsViewItem 
-                key={comment.id} 
+                key={comment._id} 
                 username={comment.username} 
                 comment_time={comment.comment_time} 
                 comment_text={comment.comment_text} 
