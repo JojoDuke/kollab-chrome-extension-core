@@ -47,7 +47,6 @@ const ImagePic: React.FC = () => {
                 setComments(updatedComments.filter(comment => !comment.comment_resolved));
                 setResolvedComments(updatedComments.filter(comment => comment.comment_resolved));
                 setIsCommentsLoading(false);
-                  
             })
             .catch(error => {
                 console.error(error);
