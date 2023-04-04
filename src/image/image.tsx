@@ -86,40 +86,36 @@ const ImagePic: React.FC = () => {
     const handleSendClick = async () => {
         const commentInput = document.querySelector('.comment_input input') as HTMLInputElement;
         const commentText = commentInput.value;
-
+      
         // Check if the input is empty
         if (commentText === '') {
-            alert('Please enter a comment');
-            return;
-          }
-
+          alert('Please enter a comment');
+          return;
+        }
+      
         //A POST request function that adds a comment to the database
         await axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/addComment", {
             comment_text: commentText, // The text in the input box
             comment_time: theTime, // Post the current time when comment is sent
             comment_resolved: false,
+            username: username, // Add the username to the new comment object
         })
-            .then((response) => {
-                commentInput.value = '';
-
-                const newComment = { 
-                    id: response.data.id,
-                    comment_text: commentText,
-                    username: username,
-                    comment_time: theTime,
-                    comment_resolved: false, // set the initial resolved status to false
-                  };
-                
-                if (commentsStatus === "unresolved") {
-                    setComments([...comments, newComment]);
-                } else {
-                    setResolvedComments([...resolvedComments, newComment]);
-                }
-
-            }).catch((error) => {
-                alert(JSON.stringify(error.response));
-            });
-    }
+          .then(async (response) => {
+            commentInput.value = '';
+      
+            // Fetch the updated comments list from the server
+            const updatedCommentsResponse = await axios.get("https://kollab-core-server-jojoamankwa.koyeb.app/");
+      
+            // Update the comments state with the updated list
+            setComments(updatedCommentsResponse.data.filter(comment => comment.comment_resolved === false));
+            setResolvedComments(updatedCommentsResponse.data.filter(comment => comment.comment_resolved === true));
+          })
+          .catch((error) => {
+            alert(JSON.stringify(error.response));
+          });
+      }
+      
+    
 
     // Scroll to the bottom of the view on any new comment
     useEffect(() => {
