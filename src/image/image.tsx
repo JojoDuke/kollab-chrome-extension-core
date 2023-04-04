@@ -36,27 +36,29 @@ const ImagePic: React.FC = () => {
 
     // Fetch comments when the component mounts
     useEffect(() => {
-        axios.get('https://kollab-core-server-jojoamankwa.koyeb.app/')
-            .then(response => {
-                const allComments = response.data;
-                const updatedComments = allComments.map(comment => ({
-                    ...comment,
-                    username: 'Username',
-                }));
-
-                setComments(updatedComments.filter(comment => !comment.comment_resolved));
-                setResolvedComments(updatedComments.filter(comment => comment.comment_resolved));
-                setIsCommentsLoading(false);
-            })
-            .catch(error => {
-                console.error(error);
-                setIsCommentsLoading(false);
-            });
-
-            setUsername('Username')
-
-            
-        }, []);
+        const fetchData = async () => {
+          try {
+            const response = await axios.get('https://kollab-core-server-jojoamankwa.koyeb.app/');
+            const allComments = response.data;
+            const updatedComments = allComments.map(comment => ({
+              ...comment,
+              username: 'Username',
+            }));
+      
+            setComments(updatedComments.filter(comment => !comment.comment_resolved));
+            setResolvedComments(updatedComments.filter(comment => comment.comment_resolved));
+            setIsCommentsLoading(false);
+          } catch (error) {
+            console.error(error);
+            setIsCommentsLoading(false);
+          }
+      
+          setUsername('Username');
+        };
+      
+        fetchData();
+      }, []);
+      
 
         // Function to switch selected/focused sidebar button
         const switchSidebarButton = (buttonName) => {
@@ -81,7 +83,7 @@ const ImagePic: React.FC = () => {
     };
 
     // Function for when the send button is clicked
-    const handleSendClick = () => {
+    const handleSendClick = async () => {
         const commentInput = document.querySelector('.comment_input input') as HTMLInputElement;
         const commentText = commentInput.value;
 
@@ -92,7 +94,7 @@ const ImagePic: React.FC = () => {
           }
 
         //A POST request function that adds a comment to the database
-        axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/addComment", {
+        await axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/addComment", {
             comment_text: commentText, // The text in the input box
             comment_time: theTime, // Post the current time when comment is sent
             comment_resolved: false,
@@ -114,7 +116,9 @@ const ImagePic: React.FC = () => {
                     setResolvedComments([...resolvedComments, newComment]);
                 }
 
-            }).catch((error) => alert(JSON.stringify(error.response)));
+            }).catch((error) => {
+                alert(JSON.stringify(error.response));
+            });
     }
 
     // Scroll to the bottom of the view on any new comment
@@ -130,6 +134,7 @@ const ImagePic: React.FC = () => {
 
     // Callback function to move comment to resolved list
     const markAsResolved = async (comment) => {
+        
         // Update the comment to 'Resolved' in the database
         await axios.put(`https://kollab-core-server-jojoamankwa.koyeb.app/updateComment/${comment._id}`, {
             comment_resolved: true,
@@ -137,6 +142,8 @@ const ImagePic: React.FC = () => {
             .then((response) => {
                 // Remove comment from comments state
                 setComments(comments.filter((c) => c !== comment));
+
+                console.log(comment._id + ' ' + comment.comment_text);
                 
                 // Add comment to resolvedCommentList
                 setResolvedComments([...resolvedComments, comment]);
