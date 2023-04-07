@@ -105,10 +105,15 @@ const ImagePic: React.FC = () => {
       
             // Fetch the updated comments list from the server
             const updatedCommentsResponse = await axios.get("https://kollab-core-server-jojoamankwa.koyeb.app/");
+            const allComments = updatedCommentsResponse.data;
+            const updatedAllComments = allComments.map(comment => ({
+                ...comment,
+                username: 'Username',
+              }));
       
             // Update the comments state with the updated list
-            setComments(updatedCommentsResponse.data.filter(comment => comment.comment_resolved === false));
-            setResolvedComments(updatedCommentsResponse.data.filter(comment => comment.comment_resolved === true));
+            setComments(updatedAllComments.filter(comment => comment.comment_resolved === false));
+            setResolvedComments(updatedAllComments.filter(comment => comment.comment_resolved === true));
           })
           .catch((error) => {
             alert(JSON.stringify(error.response));
@@ -196,6 +201,8 @@ const ImagePic: React.FC = () => {
           handleSendClick();
         }
       }
+
+      /* ========== Code and functions for draw and text buttons ========== */
 
       const pencilSelectedColor = isAddingDrawing && isPencilSelected ? 'green' : '#d9d9d9';
       const textSelectedColor = isAddingText && isTextSelected ? 'red' : '#d9d9d9';
