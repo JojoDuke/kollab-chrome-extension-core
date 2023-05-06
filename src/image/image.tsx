@@ -7,6 +7,7 @@ import OtherProjectsFolder from "./imageComponents/OtherProjectsFolder";
 import UserSettings from "./imageComponents/UserSettings";
 
 const ImagePic: React.FC = () => {
+    // HTML Elements Ref
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvasContainerRef = useRef<HTMLDivElement>(null);
     const commentsViewRef = useRef<HTMLDivElement>(null);
@@ -202,7 +203,7 @@ const ImagePic: React.FC = () => {
         }
       }
 
-      /* ========== Code and functions for draw and text buttons ========== */
+      /* ========== DRAW & TEXT FUNCTIONS ========== */
 
       const pencilSelectedColor = isAddingDrawing && isPencilSelected ? 'green' : '#d9d9d9';
       const textSelectedColor = isAddingText && isTextSelected ? 'red' : '#d9d9d9';
