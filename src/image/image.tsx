@@ -7,6 +7,17 @@ import OtherProjectsFolder from "./imageComponents/OtherProjectsFolder";
 import UserSettings from "./imageComponents/UserSettings";
 
 const ImagePic: React.FC = () => {
+    //Temp
+    const [showSignupForm, setShowSignupForm] = useState(false);
+
+    const showSignupFormClick = () => {
+        setShowSignupForm(true);
+    };
+
+    const showLoginFormClick = () => {
+        setShowSignupForm(false);
+    };
+
     // HTML Elements Ref
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -444,20 +455,8 @@ const ImagePic: React.FC = () => {
     return (
         <div className="main">
             <div id="login-form" className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 z-50 flex justify-center items-center">
-                <form className="bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
-                    <div className="mb-4">
-                        <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
-                        <input id="email" type="email" name="email" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
-                        <input id="password" type="password" name="password" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
-                    </div>
-                    <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Log in</button>
-                    <p className="text-white mt-4 text-center">Don't have an account? <a href="#" className="underline">Create one now</a></p>
-                </form>
-
-                <form className="signup-form bg-black bg-opacity-90 p-8 rounded-lg shadow-lg hidden">
+            {showSignupForm ? 
+                (<form className="signup-form bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
                         <input id="email" type="email" name="email" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
@@ -470,9 +469,22 @@ const ImagePic: React.FC = () => {
                         <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
                         <input id="password" type="password" name="password" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
                     </div>
+                    <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Create account</button>
+                    <p className="text-white mt-4 text-center">Already have an account? <a href="#" className="underline" onClick={showLoginFormClick}>Log in here</a></p>
+                </form>) : 
+                (<form className="bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
+                    <div className="mb-4">
+                        <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
+                        <input id="email" type="email" name="email" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
+                        <input id="password" type="password" name="password" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
+                    </div>
                     <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Log in</button>
-                    <p className="text-white mt-4 text-center">Don't have an account? <a href="#" className="underline">Create one now</a></p>
-                </form>
+                    <p className="text-white mt-4 text-center">Don't have an account? <a href="#" className="underline" onClick={showSignupFormClick}>Create one now</a></p>
+                </form>)}
+                
             </div>
 
             <div className="wrapper">
