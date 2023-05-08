@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const CommentsModel = require("./Models/Comments");
 const CanvasStateModel = require("./Models/CanvasState");
+const UserModel = require("./Models/User");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
@@ -60,6 +61,20 @@ app.put('/updateComment/:id', async (req, res) => {
         res.status(500).send('Server error');
       }
 });
+
+// POST request to create a new user
+app.post('/signup', async (req, res) => {
+    const { email, password, username } = req.body;
+    const user = new UserModel({ email, password, username });
+  
+    try {
+      await user.save();
+      res.send('User created successfully');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error creating user');
+    }
+  });
 
 // Tentative
 app.get('/saveCanvas', (req, res) => {

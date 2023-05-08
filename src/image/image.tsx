@@ -17,6 +17,13 @@ const ImagePic: React.FC = () => {
     const showLoginFormClick = () => {
         setShowSignupForm(false);
     };
+
+    const submitSignup = (e) => {
+        e.preventDefault();
+        const email = e.target.email.value;
+        const username = e.target.username.value;
+        const password = e.target.password.value;
+    }
     // ===================================================
 
     // HTML Elements Ref
@@ -458,7 +465,10 @@ const ImagePic: React.FC = () => {
             <div id="login-form" className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 z-50 flex justify-center items-center">
             {showSignupForm ? 
                 // SignUp Form
-                (<form className="signup-form bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
+                (<form 
+                    className="signup-form bg-black bg-opacity-90 p-8 rounded-lg shadow-lg"
+                    onSubmit={submitSignup}    
+                >
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
                         <input id="email" type="email" name="email" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
