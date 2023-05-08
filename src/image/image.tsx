@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import "./image.css";
 import axios from "axios";
 import CommentsViewItem from "./imageComponents/CommentsViewItem";
@@ -7,7 +7,7 @@ import OtherProjectsFolder from "./imageComponents/OtherProjectsFolder";
 import UserSettings from "./imageComponents/UserSettings";
 
 const ImagePic: React.FC = () => {
-    //Temp
+    //Temp - Registration
     const [showSignupForm, setShowSignupForm] = useState(false);
 
     const showSignupFormClick = () => {
@@ -17,6 +17,7 @@ const ImagePic: React.FC = () => {
     const showLoginFormClick = () => {
         setShowSignupForm(false);
     };
+    // ===================================================
 
     // HTML Elements Ref
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -456,6 +457,7 @@ const ImagePic: React.FC = () => {
         <div className="main">
             <div id="login-form" className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 z-50 flex justify-center items-center">
             {showSignupForm ? 
+                // SignUp Form
                 (<form className="signup-form bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
@@ -472,6 +474,7 @@ const ImagePic: React.FC = () => {
                     <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Create account</button>
                     <p className="text-white mt-4 text-center">Already have an account? <a href="#" className="underline" onClick={showLoginFormClick}>Log in here</a></p>
                 </form>) : 
+                // Login Form
                 (<form className="bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
@@ -484,7 +487,6 @@ const ImagePic: React.FC = () => {
                     <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Log in</button>
                     <p className="text-white mt-4 text-center">Don't have an account? <a href="#" className="underline" onClick={showSignupFormClick}>Create one now</a></p>
                 </form>)}
-                
             </div>
 
             <div className="wrapper">
