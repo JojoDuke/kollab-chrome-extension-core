@@ -10,6 +10,20 @@ const ImagePic: React.FC = () => {
     //Temp - Registration
     const [showSignupForm, setShowSignupForm] = useState(false);
 
+    const [userUsername, setUserUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const submitSignup = (e) => {
+        e.preventDefault();
+        
+        try {
+            
+        } catch (error) {
+            alert(error);
+        }
+    }
+
     const showSignupFormClick = () => {
         setShowSignupForm(true);
     };
@@ -17,13 +31,6 @@ const ImagePic: React.FC = () => {
     const showLoginFormClick = () => {
         setShowSignupForm(false);
     };
-
-    const submitSignup = (e) => {
-        e.preventDefault();
-        const email = e.target.email.value;
-        const username = e.target.username.value;
-        const password = e.target.password.value;
-    }
     // ===================================================
 
     // HTML Elements Ref
