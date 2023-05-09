@@ -17,7 +17,7 @@ const ImagePic: React.FC = () => {
     const submitSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://kollab-core-server-jojoamankwa.koyeb.app/signup', { username, email, password });
+            const response = await axios.post('https://kollab-core-server-jojoamankwa.koyeb.app/signup', { userUsername, email, password });
         } catch (error) {
             alert(error);
         }
@@ -492,7 +492,8 @@ const ImagePic: React.FC = () => {
                         <input 
                             id="username" 
                             type="username" 
-                            name="username" 
+                            name="username"
+                            value={userUsername} 
                             onChange={(e) => setUserUsername(e.target.value)}
                             className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
                             required
@@ -504,6 +505,7 @@ const ImagePic: React.FC = () => {
                             id="password" 
                             type="password" 
                             name="password" 
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
                             required
