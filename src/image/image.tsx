@@ -24,7 +24,7 @@ const ImagePic: React.FC = () => {
             });
             alert(response);
         } catch (error) {
-            alert(error);
+            alert(JSON.stringify(error.response));
         }
     }
 

@@ -64,8 +64,8 @@ app.put('/updateComment/:id', async (req, res) => {
 
 // POST request to create a new user
 app.post('/signup', async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = new UserModel({ email, password, username });
+    const userCred = req.body;
+    const user = new UserModel(userCred);
   
     try {
       await user.save();
