@@ -32,12 +32,13 @@ const ImagePic: React.FC = () => {
         e.preventDefault();
         try {
             const response = await axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/login", {
-              email,
-              password,
+              email: email,
+              password: password,
             });
-            alert(response.data);
+            alert("Logged In!");
           } catch (error) {
-            alert(error);
+            //alert(JSON.stringify(error.response));
+            alert(email + password);
           }
     };
 
@@ -541,6 +542,7 @@ const ImagePic: React.FC = () => {
                             type="email" 
                             name="email" 
                             value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
                             required
                         />
@@ -552,6 +554,7 @@ const ImagePic: React.FC = () => {
                             type="password" 
                             name="password" 
                             value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
                             required
                         />

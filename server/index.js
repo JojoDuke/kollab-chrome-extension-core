@@ -96,7 +96,7 @@ app.post('/login', async (req, res) => {
     
         res.json({ message: "Logged in successfully" });
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
 });
 
