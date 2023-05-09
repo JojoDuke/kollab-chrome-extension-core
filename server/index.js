@@ -99,7 +99,7 @@ app.post("/saveCanvas", async (req, res) => {
         //console.error(err);
         res.status(500).send('Error saving canvas state');
     }
-});
+})
 
 
 app.listen(5000, () => {
