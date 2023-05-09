@@ -79,16 +79,16 @@ app.post('/signup', async (req, res) => {
 
 // POST to login a user
 app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const userCred = req.body;
 
     try {
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne(userCred.email);
     
         if (!user) {
           return res.status(400).json({ message: "Invalid credentials" });
         }
     
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(userCred.password, user.password);
     
         if (!isMatch) {
           return res.status(400).json({ message: "Invalid credentials" });
