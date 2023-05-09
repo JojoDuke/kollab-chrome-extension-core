@@ -22,11 +22,24 @@ const ImagePic: React.FC = () => {
                 password: password, 
                 username: userUsername 
             });
-            alert(response);
+            alert("Account has been created successfully");
         } catch (error) {
             alert("This is error");
         }
     }
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/login", {
+              email,
+              password,
+            });
+            alert(response.data);
+          } catch (error) {
+            alert(error);
+          }
+    };
 
     const showSignupFormClick = () => {
         setShowSignupForm(true);
@@ -520,14 +533,28 @@ const ImagePic: React.FC = () => {
                     <p className="text-white mt-4 text-center">Already have an account? <a href="#" className="underline" onClick={showLoginFormClick}>Log in here</a></p>
                 </form>) : 
                 // Login Form
-                (<form className="bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
+                (<form onSubmit={handleLogin} className="bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
-                        <input id="email" type="email" name="email" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
+                        <input 
+                            id="email" 
+                            type="email" 
+                            name="email" 
+                            value={email}
+                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                            required
+                        />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
-                        <input id="password" type="password" name="password" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
+                        <input 
+                            id="password" 
+                            type="password" 
+                            name="password" 
+                            value={password}
+                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                            required
+                        />
                     </div>
                     <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Log in</button>
                     <p className="text-white mt-4 text-center">Don't have an account? <a href="#" className="underline" onClick={showSignupFormClick}>Create one now</a></p>

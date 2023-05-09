@@ -5,6 +5,7 @@ const CommentsModel = require("./Models/Comments");
 const CanvasStateModel = require("./Models/CanvasState");
 const UserModel = require("./Models/UserModel");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 
@@ -75,6 +76,29 @@ app.post('/signup', async (req, res) => {
       res.status(500).send('Error creating user');
     }
   });
+
+// POST to login a user
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await UserModel.findOne({ email });
+    
+        if (!user) {
+          return res.status(400).json({ message: "Invalid credentials" });
+        }
+    
+        const isMatch = await bcrypt.compare(password, user.password);
+    
+        if (!isMatch) {
+          return res.status(400).json({ message: "Invalid credentials" });
+        }
+    
+        res.json({ message: "Logged in successfully" });
+      } catch (err) {
+        console.error(err);
+      }
+});
 
 // Tentative
 app.get('/saveCanvas', (req, res) => {
