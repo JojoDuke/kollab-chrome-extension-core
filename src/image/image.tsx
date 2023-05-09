@@ -18,6 +18,7 @@ const ImagePic: React.FC = () => {
         e.preventDefault();
         try {
             const response = await axios.post('https://kollab-core-server-jojoamankwa.koyeb.app/signup', { userUsername, email, password });
+            alert(response);
         } catch (error) {
             alert(error);
         }
