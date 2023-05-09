@@ -14,11 +14,10 @@ const ImagePic: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const submitSignup = (e) => {
+    const submitSignup = async (e) => {
         e.preventDefault();
-        
         try {
-            
+            const response = await axios.post('https://kollab-core-server-jojoamankwa.koyeb.app/signup', { username, email, password });
         } catch (error) {
             alert(error);
         }
@@ -478,15 +477,37 @@ const ImagePic: React.FC = () => {
                 >
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
-                        <input id="email" type="email" name="email" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
+                        <input 
+                            id="email" 
+                            type="email" 
+                            name="email" 
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                            required
+                        />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="username" className="block text-white font-medium mb-2">Username</label>
-                        <input id="username" type="username" name="username" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
+                        <input 
+                            id="username" 
+                            type="username" 
+                            name="username" 
+                            onChange={(e) => setUserUsername(e.target.value)}
+                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                            required
+                        />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
-                        <input id="password" type="password" name="password" className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" required/>
+                        <input 
+                            id="password" 
+                            type="password" 
+                            name="password" 
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                            required
+                        />
                     </div>
                     <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Create account</button>
                     <p className="text-white mt-4 text-center">Already have an account? <a href="#" className="underline" onClick={showLoginFormClick}>Log in here</a></p>
