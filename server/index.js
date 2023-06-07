@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const cookieSession = require("cookie-session");
 const CommentsModel = require("./Models/Comments");
 const CanvasStateModel = require("./Models/CanvasState");
 const UserModel = require("./Models/UserModel");

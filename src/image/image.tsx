@@ -487,7 +487,7 @@ const ImagePic: React.FC = () => {
 
     return (
         <div className="main">
-            <div id="login-form" className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 z-50 flex justify-center items-center">
+            <div id="login-form" className="shadow-lg fixed top-0 left-0 w-screen h-screen bg-white z-50 flex justify-center items-center">
             {showSignupForm ? 
                 // SignUp Form
                 (<form 
