@@ -2,13 +2,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-const CommentsModel = require("./Models/Comments");
-const CanvasStateModel = require("./Models/CanvasState");
-const UserModel = require("./Models/UserModel");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
+const CommentsModel = require("./Models/Comments");
+const CanvasStateModel = require("./Models/CanvasState");
+const UserModel = require("./Models/UserModel");
 
 //MongoDB connection
 mongoose.connect("mongodb+srv://admin:8FoswwcRH2zINbIK@kollabcluster.lfup9j5.mongodb.net/kollab?retryWrites=true&w=majority");
@@ -21,6 +21,14 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json({limit: '10000mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10000mb', extended: true}));
+app.use(express.urlencoded({extended: true}));
+app.use(
+    cookieSession({
+      name: "cookie-session",
+      secret: "COOKIE_SECRET",
+      httpOnly: true
+    })
+  );
 
 //GET Request
 app.get('/', (req, res) => {
