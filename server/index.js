@@ -11,8 +11,8 @@ const CommentsModel = require("./Models/Comments");
 const CanvasStateModel = require("./Models/CanvasState");
 const UserModel = require("./Models/UserModel");
 
-const { verifySignUp } = require("./Middlewares");
-const controller = require("./Controllers/auth.controller")
+const db = require("./Models");
+const User = db.UserModel;
 
 //MongoDB connection
 mongoose.connect("mongodb+srv://admin:8FoswwcRH2zINbIK@kollabcluster.lfup9j5.mongodb.net/kollab?retryWrites=true&w=majority");
@@ -92,25 +92,18 @@ app.post('/signup', async (req, res) => {
 
 // POST to login a user
 app.post('/login', async (req, res) => {
-    const userCred = req.body;
+  //User.findOne({})
+    
+});
 
-    try {
-        const user = await UserModel.findOne(userCred.email);
-    
-        if (!user) {
-          return res.status(400).json({ message: "Invalid credentials" });
-        }
-    
-        const isMatch = await bcrypt.compare(userCred.password, user.password);
-    
-        if (!isMatch) {
-          return res.status(400).json({ message: "Invalid credentials" });
-        }
-    
-        res.json({ message: "Logged in successfully" });
-      } catch (err) {
-        console.log(err);
-      }
+// POST route for logging a user out
+app.post("/logout", async (req, res) => {
+  try {
+    req.session = null;
+    return res.status(200).send({ message: "You've been signed out!" });
+  } catch (err) {
+    this.next(err);
+  }
 });
 
 // Tentative
