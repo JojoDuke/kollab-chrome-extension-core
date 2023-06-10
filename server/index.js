@@ -6,9 +6,13 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
+
 const CommentsModel = require("./Models/Comments");
 const CanvasStateModel = require("./Models/CanvasState");
 const UserModel = require("./Models/UserModel");
+
+const { verifySignUp } = require("./Middlewares");
+const controller = require("./Controllers/auth.controller")
 
 //MongoDB connection
 mongoose.connect("mongodb+srv://admin:8FoswwcRH2zINbIK@kollabcluster.lfup9j5.mongodb.net/kollab?retryWrites=true&w=majority");
@@ -85,6 +89,15 @@ app.post('/signup', async (req, res) => {
       res.status(500).send('Error creating user');
     }
   });
+
+  app.post(
+    "/api/auth/signup",
+    [
+      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkRolesExisted
+    ],
+    controller.signup
+  );
 
 // POST to login a user
 app.post('/login', async (req, res) => {
