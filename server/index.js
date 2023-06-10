@@ -77,7 +77,7 @@ app.put('/updateComment/:id', async (req, res) => {
 });
 
 // POST request to create a new user
-app.post('/signup', async (req, res) => {
+app.post('api/auth/signup', async (req, res) => {
     const userCred = req.body;
     const user = new UserModel(userCred);
   
@@ -89,15 +89,6 @@ app.post('/signup', async (req, res) => {
       res.status(500).send('Error creating user');
     }
   });
-
-  app.post(
-    "/api/auth/signup",
-    [
-      verifySignUp.checkDuplicateUsernameOrEmail,
-      verifySignUp.checkRolesExisted
-    ],
-    controller.signup
-  );
 
 // POST to login a user
 app.post('/login', async (req, res) => {
