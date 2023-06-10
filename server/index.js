@@ -77,7 +77,7 @@ app.put('/updateComment/:id', async (req, res) => {
 });
 
 // POST request to create a new user
-app.post('/api/auth/signup', async (req, res) => {
+app.post('/signup', async (req, res) => {
     const userCred = req.body;
     const user = new UserModel(userCred);
   

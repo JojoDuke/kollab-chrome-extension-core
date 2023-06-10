@@ -17,14 +17,14 @@ const ImagePic: React.FC = () => {
     const submitSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://kollab-core-server-jojoamankwa.koyeb.app/api/auth/signup', {  
+            const response = await axios.post('https://kollab-core-server-jojoamankwa.koyeb.app/signup', {  
                 email: email, 
                 password: password, 
                 username: userUsername 
             });
             alert("Account has been created successfully");
         } catch (error) {
-            alert(error);
+            alert(JSON.stringify(error));
         }
     }
 
