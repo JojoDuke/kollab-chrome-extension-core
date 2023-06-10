@@ -24,7 +24,7 @@ const ImagePic: React.FC = () => {
             });
             alert("Account has been created successfully");
         } catch (error) {
-            alert("This is error");
+            alert(error);
         }
     }
 
