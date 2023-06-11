@@ -35,10 +35,9 @@ const ImagePic: React.FC = () => {
               email: email,
               password: password,
             });
-            alert("Logged In! with") //+response.data.email);
+            alert("Logged In! with " + response.data.email);
           } catch (error) {
-            //alert(JSON.stringify(error.response));
-            alert(email + password);
+            alert(JSON.stringify(error.response));
           }
     };
 
