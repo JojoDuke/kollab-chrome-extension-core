@@ -12,7 +12,7 @@ const CommentsSchema = new mongoose.Schema({
     comment_resolved: {
         type: Boolean,
         required: false,
-    }
+    },
 });
 
 const CommentsModel = mongoose.model("comments", CommentsSchema);

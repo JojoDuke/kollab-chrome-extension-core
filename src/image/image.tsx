@@ -13,6 +13,7 @@ const ImagePic: React.FC = () => {
     const [userUsername, setUserUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showLoginForm, setShowLoginForm] = useState(true);
 
     const submitSignup = async (e) => {
         e.preventDefault();
@@ -35,9 +36,9 @@ const ImagePic: React.FC = () => {
               email: email,
               password: password,
             });
-            alert("Logged In! with " + response.data.email);
+            setShowLoginForm(false);
           } catch (error) {
-            alert(JSON.stringify(error.response));
+            alert("Email or password is invalid");
           }
     };
 
@@ -73,7 +74,6 @@ const ImagePic: React.FC = () => {
     const [isTextSelected, setIsTextSelected] = useState(false);
     const [isAddingDrawing, setIsAddingDrawing] = useState(false);
     const [isPencilSelected, setIsPencilSelected] = useState(false);
-    const [canvasState, setCanvasState] = useState<string>('');
     const [selectedButton, setSelectedButton] = useState('home');
     const [isFolderClicked, setIsFolderClicked] = useState(false);
     const [isSettingsClicked, setIsSettingsClicked] = useState(false);
@@ -86,7 +86,7 @@ const ImagePic: React.FC = () => {
             const allComments = response.data;
             const updatedComments = allComments.map(comment => ({
               ...comment,
-              username: 'Username',
+              username: userUsername,
             }));
       
             setComments(updatedComments.filter(comment => !comment.comment_resolved));
@@ -97,7 +97,7 @@ const ImagePic: React.FC = () => {
             setIsCommentsLoading(false);
           }
       
-          setUsername('Username');
+          setUsername(userUsername);
         };
       
         fetchData();
@@ -152,7 +152,7 @@ const ImagePic: React.FC = () => {
             const allComments = updatedCommentsResponse.data;
             const updatedAllComments = allComments.map(comment => ({
                 ...comment,
-                username: 'Username',
+                username: userUsername,
               }));
       
             // Update the comments state with the updated list
@@ -328,14 +328,6 @@ const ImagePic: React.FC = () => {
             canvas.addEventListener("mousemove", drawing);
             canvas.addEventListener("mouseup", () => {
                 isDrawing = false;
-
-                //Save the canvas once the user is done drawing
-                axios.post("https://kollab-core-server-jojoamankwa.koyeb.app/saveCanvas", {
-                    canvasData: canvas.toDataURL()
-                })
-                    .then((response) => {
-                        console.log(response);
-                    })
             });
     
             return () => {
@@ -486,82 +478,86 @@ const ImagePic: React.FC = () => {
 
     return (
         <div className="main">
-            <div id="login-form" className="shadow-lg fixed top-0 left-0 w-screen h-screen bg-white z-50 flex justify-center items-center">
-            {showSignupForm ? 
-                // SignUp Form
-                (<form 
-                    className="signup-form bg-black bg-opacity-90 p-8 rounded-lg shadow-lg"
-                    onSubmit={submitSignup}    
-                >
-                    <div className="mb-4">
-                        <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
-                        <input 
-                            id="email" 
-                            type="email" 
-                            name="email" 
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="username" className="block text-white font-medium mb-2">Username</label>
-                        <input 
-                            id="username" 
-                            type="username" 
-                            name="username"
-                            value={userUsername} 
-                            onChange={(e) => setUserUsername(e.target.value)}
-                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
-                        <input 
-                            id="password" 
-                            type="password" 
-                            name="password" 
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Create account</button>
-                    <p className="text-white mt-4 text-center">Already have an account? <a href="#" className="underline" onClick={showLoginFormClick}>Log in here</a></p>
-                </form>) : 
-                // Login Form
-                (<form onSubmit={handleLogin} className="bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
-                    <div className="mb-4">
-                        <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
-                        <input 
-                            id="email" 
-                            type="email" 
-                            name="email" 
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
-                        <input 
-                            id="password" 
-                            type="password" 
-                            name="password" 
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Log in</button>
-                    <p className="text-white mt-4 text-center">Don't have an account? <a href="#" className="underline" onClick={showSignupFormClick}>Create one now</a></p>
-                </form>)}
-            </div>
+            {showLoginForm ? (
+                <div id="login-form" className="shadow-lg fixed top-0 left-0 w-screen h-screen bg-white z-50 flex justify-center items-center">
+                {showSignupForm ? 
+                    // SignUp Form
+                    (<form 
+                        className="signup-form bg-black bg-opacity-90 p-8 rounded-lg shadow-lg"
+                        onSubmit={submitSignup}    
+                    >
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
+                            <input 
+                                id="email" 
+                                type="email" 
+                                name="email" 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="username" className="block text-white font-medium mb-2">Username</label>
+                            <input 
+                                id="username" 
+                                type="username" 
+                                name="username"
+                                value={userUsername} 
+                                onChange={(e) => setUserUsername(e.target.value)}
+                                className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
+                            <input 
+                                id="password" 
+                                type="password" 
+                                name="password" 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Create account</button>
+                        <p className="text-white mt-4 text-center">Already have an account? <a href="#" className="underline" onClick={showLoginFormClick}>Log in here</a></p>
+                    </form>) : 
+                    // Login Form
+                    (<form onSubmit={handleLogin} className="bg-black bg-opacity-90 p-8 rounded-lg shadow-lg">
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-white font-medium mb-2">Email</label>
+                            <input 
+                                id="email" 
+                                type="email" 
+                                name="email" 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="password" className="block text-white font-medium mb-2">Password</label>
+                            <input 
+                                id="password" 
+                                type="password" 
+                                name="password" 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-black" 
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="w-full py-2 px-4 bg-blue-500 hover:bg-blue-600 rounded-md text-white font-medium">Log in</button>
+                        <p className="text-white mt-4 text-center">Don't have an account? <a href="#" className="underline" onClick={showSignupFormClick}>Create one now</a></p>
+                    </form>)}
+                </div>
+            ) : 
+            null}
+            
 
             <div className="wrapper">
                 <div className="sidebar">
