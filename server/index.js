@@ -78,12 +78,12 @@ app.put('/updateComment/:id', async (req, res) => {
 
 // POST request to create a new user
 app.post('/signup', async (req, res) => {
-    const userCred = req.body;
-    const user = new UserModel(userCred);
+    const userCredentials = req.body;
+    const user = new UserModel(userCredentials);
   
     try {
       await user.save();
-      res.send('User created successfully');
+      res.send(`User ${user.username} created successfully`);
     } catch (err) {
       console.error(err);
       res.status(500).send('Error creating user');
@@ -92,7 +92,16 @@ app.post('/signup', async (req, res) => {
 
 // POST to login a user
 app.post('/login', async (req, res) => {
+  const userCredentials = req.body;
+  const user = new UserModel(userCredentials);
   //User.findOne({})
+
+  try {
+    
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+  
     
 });
 
