@@ -11,8 +11,8 @@ const CommentsModel = require("./Models/Comments");
 const CanvasStateModel = require("./Models/CanvasState");
 const UserModel = require("./Models/UserModel");
 
-const db = require("./Models");
-const User = db.UserModel;
+//const db = require("./Models");
+//const User = db.UserModel;
 
 //MongoDB connection
 mongoose.connect("mongodb+srv://admin:8FoswwcRH2zINbIK@kollabcluster.lfup9j5.mongodb.net/kollab?retryWrites=true&w=majority");
@@ -92,13 +92,20 @@ app.post('/signup', async (req, res) => {
 
 // POST to login a user
 app.post('/login', async (req, res) => {
-  const userCredentials = req.body;
-  const user = new UserModel(userCredentials);
-  //User.findOne({})
+  const { email, password } = req.body;
+  //user.findOne({})
 
   try {
-    
+    const user = await UserModel.findOne({ email, password });
+
+    if (!user) {
+      // User not found
+      return res.status(404).send('Invalid email or password');
+    }
+
+    res.send('Login successful');
   } catch (err) {
+    console.error(err);
     res.status(500).send('Server error');
   }
   
@@ -114,31 +121,6 @@ app.post("/logout", async (req, res) => {
     this.next(err);
   }
 });
-
-// Tentative
-app.get('/saveCanvas', (req, res) => {
-    CanvasStateModel.find({}, (err, result) => {
-        if (err) {
-            res.json(err)
-        } else {
-            res.json(result)
-        }
-    });
-});
-
-//Save canvas state
-app.post("/saveCanvas", async (req, res) => {
-    const { canvasData } = req.body
-    const canvas = new CanvasStateModel({canvasData: canvasData});
-
-    try {
-        await canvas.save();
-        res.send('Canvas state saved successfully');
-    } catch (err) {
-        //console.error(err);
-        res.status(500).send('Error saving canvas state');
-    }
-})
 
 
 app.listen(5000, () => {
