@@ -1,1 +1,1 @@
-# Kollab Chrome Extension 
+# Kollab Chrome Extension Core
